@@ -130,13 +130,11 @@ Configuration_Secure.h
 #Simulation
 imgui.ini
 eeprom.dat
-spi_flash.bin
 
 #cmake
 CMakeLists.txt
 src/CMakeLists.txt
 CMakeListsPrivate.txt
-build/
 
 # CLion
 cmake-build-*
