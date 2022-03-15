@@ -968,8 +968,8 @@
  *   M204 T    Travel Acceleration
  */
 #define DEFAULT_ACCELERATION          400    // X, Y, Z and E acceleration for printing moves
-#define DEFAULT_RETRACT_ACCELERATION  400    // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION   400    // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_TRAVEL_ACCELERATION   500    // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_RETRACT_ACCELERATION  600    // E acceleration for retracts
 
 /**
  * Default Jerk limits (mm/s)
@@ -1038,7 +1038,7 @@
 //#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // Force the use of the probe for Z-axis homing
-//#define USE_PROBE_FOR_Z_HOMING
+#define USE_PROBE_FOR_Z_HOMING
 
 /**
  * Z_MIN_PROBE_PIN
@@ -1195,20 +1195,26 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 16.0, -32.0, -2.4 }
+#define NOZZLE_TO_PROBE_OFFSET { 24.0, -48.0, -3.2 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 8.0
+#define PROBING_MARGIN 16.0
+
+// X and Y probing speeds
+#define XY_PROBE_SPEED (240*60)
 
 // X and Y axis travel speed (mm/min) between probes
-#define XY_PROBE_FEEDRATE (133*60)
+#define XY_PROBE_FEEDRATE (XY_PROBE_SPEED / 2)
 
 // Feedrate (mm/min) for the first approach when double-probing (MULTIPLE_PROBING == 2)
 #define Z_PROBE_FEEDRATE_FAST (4*60)
 
 // Feedrate (mm/min) for the "accurate" probe of each point
-#define Z_PROBE_FEEDRATE_SLOW (Z_PROBE_FEEDRATE_FAST / 2)
+#define Z_PROBE_FEEDRATE_NORMAL (Z_PROBE_FEEDRATE_FAST / 2)
+
+// Feedrate (mm/min) for the "accurate" probe of each point
+#define Z_PROBE_FEEDRATE_SLOW (Z_PROBE_FEEDRATE_FAST / 3)
 
 /**
  * Probe Activation Switch
@@ -1255,8 +1261,8 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-//#define MULTIPLE_PROBING 2
-//#define EXTRA_PROBING    1
+#define MULTIPLE_PROBING 3
+#define EXTRA_PROBING    1
 
 /**
  * Z probes require clearance when deploying, stowing, and moving between
@@ -1272,12 +1278,12 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   16 // Z Clearance for Deploy/Stow
-#define Z_CLEARANCE_BETWEEN_PROBES  8 // Z Clearance between probe points
-#define Z_CLEARANCE_MULTI_PROBE     8 // Z Clearance between multiple probes
-#define Z_AFTER_PROBING           8 // Z position after probing is done
+#define Z_CLEARANCE_DEPLOY_PROBE   9.0 // Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_BETWEEN_PROBES  6.0 // Z Clearance between probe points
+#define Z_CLEARANCE_MULTI_PROBE     3.0 // Z Clearance between multiple probes
 
-#define Z_PROBE_LOW_POINT          -1 // Farthest distance below the trigger-point to go before stopping
+#define Z_AFTER_PROBING           5.0   // Z position after probing is done
+#define Z_PROBE_LOW_POINT        -0.5   // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
 #define Z_PROBE_OFFSET_RANGE_MIN -8
@@ -1659,8 +1665,8 @@
 
   //#define MESH_EDIT_GFX_OVERLAY   // Display a graphics overlay while editing the mesh
 
-  #define MESH_INSET 1              // Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 9      // Don't use more than 15 points per axis, implementation limited.
+  #define MESH_INSET 2             // Set Mesh bounds as an inset region of the bed
+  #define GRID_MAX_POINTS_X 8      // Don't use more than 15 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   #define UBL_HILBERT_CURVE       // Use Hilbert distribution for less travel when probing multiple points
@@ -2121,6 +2127,7 @@
  * you must uncomment the following option or it won't work.
  */
 #define SDSUPPORT
+#define SDCARD_CONNECTION ONBOARD
 
 /**
  * SD CARD: ENABLE CRC
