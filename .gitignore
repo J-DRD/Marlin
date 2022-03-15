@@ -112,37 +112,20 @@ tags
 *.app
 *.i*86
 *.x86_64
-*.hex
 
 # Debug files
 *.dSYM/
 *.su
 
 # PlatformIO files/dirs
-.pio*
-.pioenvs
-.piolibdeps
+.pio/envs
+.pio/libdeps
 .clang_complete
 .gcc-flags.json
 /lib/
 
 # Secure Credentials
 Configuration_Secure.h
-
-# Visual Studio
-*.sln
-*.vcxproj
-*.vcxproj.user
-*.vcxproj.filters
-Release/
-Debug/
-__vm/
-.vs/
-vc-fileutils.settings
-
-# Visual Studio Code
-.vscode/*
-!.vscode/extensions.json
 
 #Simulation
 imgui.ini
