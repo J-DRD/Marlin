@@ -283,12 +283,12 @@
  * THERMAL_PROTECTION_HYSTERESIS and/or THERMAL_PROTECTION_PERIOD
  */
 #if ENABLED(THERMAL_PROTECTION_HOTENDS)
-#define THERMAL_PROTECTION_PERIOD 40    // Seconds
-#define THERMAL_PROTECTION_HYSTERESIS 4 // Degrees Celsius
+#define THERMAL_PROTECTION_PERIOD 30    // Seconds
+#define THERMAL_PROTECTION_HYSTERESIS 3 // Degrees Celsius
 
-//#define ADAPTIVE_FAN_SLOWING              // Slow part cooling fan if temperature drops
+#define ADAPTIVE_FAN_SLOWING              // Slow part cooling fan if temperature drops
 #if BOTH(ADAPTIVE_FAN_SLOWING, PIDTEMP)
-//#define NO_FAN_SLOWING_IN_PID_TUNING    // Don't slow fan speed during M303
+	#define NO_FAN_SLOWING_IN_PID_TUNING    // Don't slow fan speed during M303
 #endif
 
 /**
@@ -303,63 +303,63 @@
  * and/or decrease WATCH_TEMP_INCREASE. WATCH_TEMP_INCREASE should not be set
  * below 2.
  */
-#define WATCH_TEMP_PERIOD 20  // Seconds
-#define WATCH_TEMP_INCREASE 2 // Degrees Celsius
+#define WATCH_TEMP_PERIOD 15  // Seconds
+#define WATCH_TEMP_INCREASE 1 // Degrees Celsius
 #endif
 
 /**
  * Thermal Protection parameters for the bed are just as above for hotends.
  */
 #if ENABLED(THERMAL_PROTECTION_BED)
-#define THERMAL_PROTECTION_BED_PERIOD 20    // Seconds
-#define THERMAL_PROTECTION_BED_HYSTERESIS 2 // Degrees Celsius
+#define THERMAL_PROTECTION_BED_PERIOD 30    // Seconds
+#define THERMAL_PROTECTION_BED_HYSTERESIS 3 // Degrees Celsius
 
 /**
  * As described above, except for the bed (M140/M190/M303).
  */
-#define WATCH_BED_TEMP_PERIOD 60  // Seconds
-#define WATCH_BED_TEMP_INCREASE 2 // Degrees Celsius
+#define WATCH_BED_TEMP_PERIOD 30  // Seconds
+#define WATCH_BED_TEMP_INCREASE 1 // Degrees Celsius
 #endif
 
 /**
  * Thermal Protection parameters for the heated chamber.
  */
 #if ENABLED(THERMAL_PROTECTION_CHAMBER)
-#define THERMAL_PROTECTION_CHAMBER_PERIOD 20    // Seconds
-#define THERMAL_PROTECTION_CHAMBER_HYSTERESIS 2 // Degrees Celsius
+#define THERMAL_PROTECTION_CHAMBER_PERIOD 15    // Seconds
+#define THERMAL_PROTECTION_CHAMBER_HYSTERESIS 1 // Degrees Celsius
 
 /**
  * Heated chamber watch settings (M141/M191).
  */
-#define WATCH_CHAMBER_TEMP_PERIOD 60  // Seconds
-#define WATCH_CHAMBER_TEMP_INCREASE 2 // Degrees Celsius
+#define WATCH_CHAMBER_TEMP_PERIOD 30  // Seconds
+#define WATCH_CHAMBER_TEMP_INCREASE 1 // Degrees Celsius
 #endif
 
 /**
  * Thermal Protection parameters for the laser cooler.
  */
 #if ENABLED(THERMAL_PROTECTION_COOLER)
-#define THERMAL_PROTECTION_COOLER_PERIOD 10    // Seconds
-#define THERMAL_PROTECTION_COOLER_HYSTERESIS 3 // Degrees Celsius
+#define THERMAL_PROTECTION_COOLER_PERIOD 5    // Seconds
+#define THERMAL_PROTECTION_COOLER_HYSTERESIS 2 // Degrees Celsius
 
 /**
  * Laser cooling watch settings (M143/M193).
  */
-#define WATCH_COOLER_TEMP_PERIOD 60  // Seconds
-#define WATCH_COOLER_TEMP_INCREASE 3 // Degrees Celsius
+#define WATCH_COOLER_TEMP_PERIOD 30  // Seconds
+#define WATCH_COOLER_TEMP_INCREASE 2 // Degrees Celsius
 #endif
 
 #if ANY(THERMAL_PROTECTION_HOTENDS, THERMAL_PROTECTION_BED, THERMAL_PROTECTION_CHAMBER, THERMAL_PROTECTION_COOLER)
-#define THERMAL_PROTECTION_VARIANCE_MONITOR // Detect a sensor malfunction preventing temperature updates
+	#define THERMAL_PROTECTION_VARIANCE_MONITOR // Detect a sensor malfunction preventing temperature updates
 #endif
 
 #if ENABLED(PIDTEMP)
 // Add an experimental additional term to the heater power, proportional to the extrusion speed.
 // A well-chosen Kc value should add just enough power to melt the increased material volume.
-//#define PID_EXTRUSION_SCALING
+#define PID_EXTRUSION_SCALING
 #if ENABLED(PID_EXTRUSION_SCALING)
-#define DEFAULT_Kc (100) // heating power = Kc * e_speed
-#define LPQ_MAX_LEN 50
+	#define DEFAULT_Kc (100) // heating power = Kc * e_speed
+	#define LPQ_MAX_LEN 50
 #endif
 
 /**
@@ -430,7 +430,7 @@
 #if ENABLED(AUTOTEMP)
 #define AUTOTEMP_OLDWEIGHT 0.98 // Factor used to weight previous readings (0.0 < value < 1.0)
 // Turn on AUTOTEMP on M104/M109 by default using proportions set here
-//#define AUTOTEMP_PROPORTIONAL
+#define AUTOTEMP_PROPORTIONAL
 #if ENABLED(AUTOTEMP_PROPORTIONAL)
 #define AUTOTEMP_MIN_P 0    // (°C) Added to the target temperature
 #define AUTOTEMP_MAX_P 5    // (°C) Added to the target temperature
@@ -476,22 +476,22 @@
 // then extrude some filament every couple of SECONDS.
 //#define EXTRUDER_RUNOUT_PREVENT
 #if ENABLED(EXTRUDER_RUNOUT_PREVENT)
-#define EXTRUDER_RUNOUT_MINTEMP 190
-#define EXTRUDER_RUNOUT_SECONDS 30
-#define EXTRUDER_RUNOUT_SPEED 1500 // (mm/min)
-#define EXTRUDER_RUNOUT_EXTRUDE 5  // (mm)
+	#define EXTRUDER_RUNOUT_MINTEMP 200
+	#define EXTRUDER_RUNOUT_SECONDS 20
+	#define EXTRUDER_RUNOUT_SPEED 2000 // (mm/min)
+	#define EXTRUDER_RUNOUT_EXTRUDE 2  // (mm)
 #endif
 
 /**
  * Hotend Idle Timeout
  * Prevent filament in the nozzle from charring and causing a critical jam.
  */
-//#define HOTEND_IDLE_TIMEOUT
+#define HOTEND_IDLE_TIMEOUT
 #if ENABLED(HOTEND_IDLE_TIMEOUT)
-#define HOTEND_IDLE_TIMEOUT_SEC (5 * 60) // (seconds) Time without extruder movement to trigger protection
-#define HOTEND_IDLE_MIN_TRIGGER 180      // (°C) Minimum temperature to enable hotend protection
-#define HOTEND_IDLE_NOZZLE_TARGET 0      // (°C) Safe temperature for the nozzle after timeout
-#define HOTEND_IDLE_BED_TARGET 0         // (°C) Safe temperature for the bed after timeout
+	#define HOTEND_IDLE_TIMEOUT_SEC (3 * 60) // (seconds) Time without extruder movement to trigger protection
+	#define HOTEND_IDLE_MIN_TRIGGER 180      // (°C) Minimum temperature to enable hotend protection
+	#define HOTEND_IDLE_NOZZLE_TARGET 0      // (°C) Safe temperature for the nozzle after timeout
+	#define HOTEND_IDLE_BED_TARGET 0         // (°C) Safe temperature for the bed after timeout
 #endif
 
 // @section temperature
@@ -621,11 +621,11 @@
 #define COOLER_AUTO_FAN_PIN -1
 #define COOLER_FAN_PIN -1
 
-#define EXTRUDER_AUTO_FAN_TEMPERATURE 50
+#define EXTRUDER_AUTO_FAN_TEMPERATURE 40
 #define EXTRUDER_AUTO_FAN_SPEED 255 // 255 == full speed
-#define CHAMBER_AUTO_FAN_TEMPERATURE 30
+#define CHAMBER_AUTO_FAN_TEMPERATURE 20
 #define CHAMBER_AUTO_FAN_SPEED 255
-#define COOLER_AUTO_FAN_TEMPERATURE 18
+#define COOLER_AUTO_FAN_TEMPERATURE 10
 #define COOLER_AUTO_FAN_SPEED 255
 
 /**
@@ -850,14 +850,14 @@
 
 #define HOMING_BUMP_MM \
   {                    \
-    5, 5, 2            \
+    4, 4, 2            \
   } // (mm) Backoff from endstops after first bump
 #define HOMING_BUMP_DIVISOR \
   {                         \
     2, 2, 4                 \
   } // Re-Bump Speed Divisor (Divides the Homing Feedrate)
 
-//#define HOMING_BACKOFF_POST_MM { 2, 2, 2 }  // (mm) Backoff from endstops after homing
+#define HOMING_BACKOFF_POST_MM { 3, 3, 3 }  // (mm) Backoff from endstops after homing
 
 //#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
 //#define HOME_Y_BEFORE_X                     // If G28 contains XY home Y before X
@@ -884,7 +884,7 @@
 
 // Safety: The probe needs time to recognize the command.
 //         Minimum command delay (ms). Enable and increase if needed.
-//#define BLTOUCH_DELAY 500
+#define BLTOUCH_DELAY 250
 
 /**
  * Settings for BLTOUCH Classic 1.2, 1.3 or BLTouch Smart 1.0, 2.0, 2.2, 3.0, 3.1, and most clones:
@@ -928,7 +928,7 @@
  *
  * Set the default state here, change with 'M401 S' or UI, use M500 to save, M502 to reset.
  */
-//#define BLTOUCH_HS_MODE true
+#define BLTOUCH_HS_MODE true
 
 // Safety: Enable voltage mode settings in the LCD menu.
 //#define BLTOUCH_LCD_VOLTAGE_MENU
@@ -989,9 +989,9 @@
 #endif
 
 // On a 300mm bed a 5% grade would give a misalignment of ~1.5cm
-#define G34_MAX_GRADE 5              // (%) Maximum incline that G34 will handle
-#define Z_STEPPER_ALIGN_ITERATIONS 5 // Number of iterations to apply during alignment
-#define Z_STEPPER_ALIGN_ACC 0.02     // Stop iterating early if the accuracy is better than this
+#define G34_MAX_GRADE 1              // (%) Maximum incline that G34 will handle (1% = 0.28cm)
+#define Z_STEPPER_ALIGN_ITERATIONS 3 // Number of iterations to apply during alignment
+#define Z_STEPPER_ALIGN_ACC 0.03     // Stop iterating early if the accuracy is better than this
 #define RESTORE_LEVELING_AFTER_G34   // Restore leveling after G34 is done?
 // After G34, re-home Z (G28 Z) or just calculate it from the last probe heights?
 // Re-homing might be more precise in reproducing the actual 'G28 Z' homing height, especially on an uneven bed.
@@ -1005,10 +1005,7 @@
 #if ENABLED(ASSISTED_TRAMMING)
 
 // Define positions for probe points.
-#define TRAMMING_POINT_XY                        \
-  {                                              \
-    {20, 20}, {180, 20}, {180, 180}, { 20, 180 } \
-  }
+#define TRAMMING_POINT_XY { {25, 25}, {250, 25}, {250, 250}, { 25, 250 } }
 
 // Define position names for probe points.
 #define TRAMMING_POINT_NAME_1 "Front-Left"
@@ -1017,11 +1014,11 @@
 #define TRAMMING_POINT_NAME_4 "Back-Left"
 
 #define RESTORE_LEVELING_AFTER_G35 // Enable to restore leveling setup after operation
-//#define REPORT_TRAMMING_MM          // Report Z deviation (mm) for each point relative to the first
+#define REPORT_TRAMMING_MM          // Report Z deviation (mm) for each point relative to the first
 
-//#define ASSISTED_TRAMMING_WIZARD    // Add a Tramming Wizard to the LCD menu
+#define ASSISTED_TRAMMING_WIZARD    // Add a Tramming Wizard to the LCD menu
 
-//#define ASSISTED_TRAMMING_WAIT_POSITION { X_CENTER, Y_CENTER, 30 } // Move the nozzle out of the way for adjustment
+#define ASSISTED_TRAMMING_WAIT_POSITION { X_CENTER, Y_CENTER, 33 } // Move the nozzle out of the way for adjustment
 
 /**
  * Screw thread:
@@ -1029,7 +1026,7 @@
  *   M4: 40 = Clockwise, 41 = Counter-Clockwise
  *   M5: 50 = Clockwise, 51 = Counter-Clockwise
  */
-#define TRAMMING_SCREW_THREAD 30
+#define TRAMMING_SCREW_THREAD 31
 
 #endif
 
@@ -1057,7 +1054,7 @@
  * Set DISABLE_INACTIVE_? 'true' to shut down axis steppers after an idle period.
  * The Deactive Time can be overridden with M18 and M84. Set to 0 for No Timeout.
  */
-#define DEFAULT_STEPPER_DEACTIVE_TIME 120
+#define DEFAULT_STEPPER_DEACTIVE_TIME 90
 #define DISABLE_INACTIVE_X true
 #define DISABLE_INACTIVE_Y true
 #define DISABLE_INACTIVE_Z true // Set 'false' if the nozzle could fall onto your printed part!
@@ -1071,13 +1068,13 @@
 #define DEFAULT_MINTRAVELFEEDRATE 0.0 // (mm/s) Minimum travel feedrate. Set with M205 T.
 
 // Minimum time that a segment needs to take as the buffer gets emptied
-#define DEFAULT_MINSEGMENTTIME 20000 // (µs) Set with M205 B.
+#define DEFAULT_MINSEGMENTTIME 25000 // (µs) Set with M205 B.
 
 // Slow down the machine if the lookahead buffer is (by default) half full.
 // Increase the slowdown divisor for larger buffer sizes.
 #define SLOWDOWN
 #if ENABLED(SLOWDOWN)
-#define SLOWDOWN_DIVISOR 2
+	#define SLOWDOWN_DIVISOR 3
 #endif
 
 /**
@@ -1411,25 +1408,25 @@
 #endif
 
 // Scroll a longer status message into view
-//#define STATUS_MESSAGE_SCROLLING
+#define STATUS_MESSAGE_SCROLLING
 
 // On the Info Screen, display XY with one decimal place when possible
 //#define LCD_DECIMAL_SMALL_XY
 
 // Add an 'M73' G-code to set the current percentage
-//#define LCD_SET_PROGRESS_MANUALLY
+#define LCD_SET_PROGRESS_MANUALLY
 
 // Show the E position (filament used) during printing
-//#define LCD_SHOW_E_TOTAL
+#define LCD_SHOW_E_TOTAL
 #endif
 
 // LCD Print Progress options
 #if EITHER(SDSUPPORT, LCD_SET_PROGRESS_MANUALLY)
 #if CAN_SHOW_REMAINING_TIME
-//#define SHOW_REMAINING_TIME         // Display estimated time to completion
+	#define SHOW_REMAINING_TIME         // Display estimated time to completion
 #if ENABLED(SHOW_REMAINING_TIME)
-//#define USE_M73_REMAINING_TIME    // Use remaining time from M73 command instead of estimation
-//#define ROTATE_PROGRESS_DISPLAY   // Display (P)rogress, (E)lapsed, and (R)emaining time
+	#define USE_M73_REMAINING_TIME    // Use remaining time from M73 command instead of estimation
+	#define ROTATE_PROGRESS_DISPLAY   // Display (P)rogress, (E)lapsed, and (R)emaining time
 #endif
 #endif
 
@@ -1484,9 +1481,9 @@
 //#define NO_SD_AUTOSTART                 // Remove auto#.g file support completely to save some Flash, SRAM
 //#define MENU_ADDAUTOSTART               // Add a menu option to run auto#.g files
 
-//#define BROWSE_MEDIA_ON_INSERT          // Open the file browser when media is inserted
+#define BROWSE_MEDIA_ON_INSERT          // Open the file browser when media is inserted
 
-//#define MEDIA_MENU_AT_TOP               // Force the media menu to be listed on the top of the main menu
+#define MEDIA_MENU_AT_TOP               // Force the media menu to be listed on the top of the main menu
 
 #define EVENT_GCODE_SD_ABORT "G28XY" // G-code to run on SD Abort Print (e.g., "G28XY" or "G27")
 
@@ -1581,7 +1578,7 @@
  * This feature must be enabled with "M540 S1" or from the LCD menu.
  * To have any effect, endstops must be enabled during SD printing.
  */
-//#define SD_ABORT_ON_ENDSTOP_HIT
+#define SD_ABORT_ON_ENDSTOP_HIT
 
 /**
  * This option makes it easier to print the same SD Card file again.
@@ -1758,12 +1755,12 @@
 //#define STATUS_ALT_BED_BITMAP     // Use the alternative bed bitmap
 //#define STATUS_ALT_FAN_BITMAP     // Use the alternative fan bitmap
 //#define STATUS_FAN_FRAMES 3       // :[0,1,2,3,4] Number of fan animation frames
-//#define STATUS_HEAT_PERCENT       // Show heating in a progress bar
-//#define BOOT_MARLIN_LOGO_ANIMATED // Animated Marlin logo. Costs ~3260 (or ~940) bytes of PROGMEM.
+#define STATUS_HEAT_PERCENT       // Show heating in a progress bar
+#define BOOT_MARLIN_LOGO_ANIMATED // Animated Marlin logo. Costs ~3260 (or ~940) bytes of PROGMEM.
 
 // Frivolous Game Options
 //#define MARLIN_BRICKOUT
-//#define MARLIN_INVADERS
+#define MARLIN_INVADERS
 //#define MARLIN_SNAKE
 //#define GAMES_EASTER_EGG          // Add extra blank lines above the "Games" sub-menu
 
@@ -1994,11 +1991,13 @@
 #define BABYSTEP_ALWAYS_AVAILABLE // Allow babystepping at all times (not just during movement).
 //#define BABYSTEP_XY                     // Also enable X/Y Babystepping. Not supported on DELTA!
 #define BABYSTEP_INVERT_Z false // Change if Z babysteps should go the other way
-//#define BABYSTEP_MILLIMETER_UNITS       // Specify BABYSTEP_MULTIPLICATOR_(XY|Z) in mm instead of micro-steps
+// (MAYBE) !!! SWITCHED TO (mm) from 1 (step) to 0.1mm !!! ///
+///#define BABYSTEP_MILLIMETER_UNITS       // Specify BABYSTEP_MULTIPLICATOR_(XY|Z) in mm instead of micro-steps
+//#define BABYSTEP_MULTIPLICATOR_Z 0.1  // (steps or mm) Steps or millimeter distance for each Z babystep
+//#define BABYSTEP_MULTIPLICATOR_XY 0.1 // (steps or mm) Steps or millimeter distance for each XY babystep
 #define BABYSTEP_MULTIPLICATOR_Z 1  // (steps or mm) Steps or millimeter distance for each Z babystep
 #define BABYSTEP_MULTIPLICATOR_XY 1 // (steps or mm) Steps or millimeter distance for each XY babystep
-
-#define DOUBLECLICK_FOR_Z_BABYSTEPPING // Double-click on the Status Screen for Z Babystepping.
+//#define DOUBLECLICK_FOR_Z_BABYSTEPPING // Double-click on the Status Screen for Z Babystepping.
 #if ENABLED(DOUBLECLICK_FOR_Z_BABYSTEPPING)
 #define DOUBLECLICK_MAX_INTERVAL 1000 // Maximum interval between clicks, in milliseconds.
                                       // Note: Extra time may be added to mitigate controller latency.
@@ -2012,8 +2011,8 @@
 
 #define BABYSTEP_ZPROBE_OFFSET // Combine M851 Z and Babystepping
 #if ENABLED(BABYSTEP_ZPROBE_OFFSET)
-//#define BABYSTEP_HOTEND_Z_OFFSET      // For multiple hotends, babystep relative Z offsets
-//#define BABYSTEP_ZPROBE_GFX_OVERLAY   // Enable graphical overlay on Z-offset editor
+	//#define BABYSTEP_HOTEND_Z_OFFSET      // For multiple hotends, babystep relative Z offsets
+	#define BABYSTEP_ZPROBE_GFX_OVERLAY   // Enable graphical overlay on Z-offset editor
 #endif
 #endif
 
@@ -2050,12 +2049,12 @@
  * Override if the automatically selected points are inadequate.
  */
 #if EITHER(AUTO_BED_LEVELING_3POINT, AUTO_BED_LEVELING_UBL)
-//#define PROBE_PT_1_X 15
-//#define PROBE_PT_1_Y 180
-//#define PROBE_PT_2_X 15
-//#define PROBE_PT_2_Y 20
-//#define PROBE_PT_3_X 170
-//#define PROBE_PT_3_Y 20
+	//#define PROBE_PT_1_X 20
+	//#define PROBE_PT_1_Y 200
+	//#define PROBE_PT_2_X 15
+	//#define PROBE_PT_2_Y 100
+	//#define PROBE_PT_3_X 200
+	//#define PROBE_PT_3_Y 50
 #endif
 
 /**
@@ -2102,8 +2101,8 @@
  */
 //#define G29_RETRY_AND_RECOVER
 #if ENABLED(G29_RETRY_AND_RECOVER)
-#define G29_MAX_RETRIES 3
-#define G29_HALT_ON_FAILURE
+	#define G29_MAX_RETRIES 5
+	//#define G29_HALT_ON_FAILURE
 /**
  * Specify the GCODE commands that will be executed when leveling succeeds,
  * between attempts, and after the maximum number of retries have been tried.
@@ -2207,17 +2206,17 @@
 //
 #define ARC_SUPPORT // Requires ~3226 bytes
 #if ENABLED(ARC_SUPPORT)
-#define MIN_ARC_SEGMENT_MM 0.1 // (mm) Minimum length of each arc segment
-#define MAX_ARC_SEGMENT_MM 1.0 // (mm) Maximum length of each arc segment
-#define MIN_CIRCLE_SEGMENTS 72 // Minimum number of segments in a complete circle
-//#define ARC_SEGMENTS_PER_SEC 50   // Use the feedrate to choose the segment length
-#define N_ARC_CORRECTION 25 // Number of interpolated segments between corrections
-//#define ARC_P_CIRCLES             // Enable the 'P' parameter to specify complete circles
-//#define SF_ARC_FIX                // Enable only if using SkeinForge with "Arc Point" fillet procedure
+	#define MIN_ARC_SEGMENT_MM 0.05 // (mm) Minimum length of each arc segment
+	#define MAX_ARC_SEGMENT_MM 1.5  // (mm) Maximum length of each arc segment
+	#define MIN_CIRCLE_SEGMENTS 50  // Minimum number of segments in a complete circle
+	#define ARC_SEGMENTS_PER_SEC 40   // Use the feedrate to choose the segment length
+	#define N_ARC_CORRECTION 30 // Number of interpolated segments between corrections
+	#define ARC_P_CIRCLES               // Enable the 'P' parameter to specify complete circles
+	//#define SF_ARC_FIX                // Enable only if using SkeinForge with "Arc Point" fillet procedure
 #endif
 
 // G5 Bézier Curve Support with XYZE destination and IJPQ offsets
-//#define BEZIER_CURVE_SUPPORT        // Requires ~2666 bytes
+#define BEZIER_CURVE_SUPPORT        // Requires ~2666 bytes
 
 #if EITHER(ARC_SUPPORT, BEZIER_CURVE_SUPPORT)
 //#define CNC_WORKSPACE_PLANES      // Allow G2/G3/G5 to operate in XY, ZX, or YZ planes
@@ -2240,10 +2239,10 @@
  * and optionally G38.4 and G38.5 (probe away from target).
  * Set MULTIPLE_PROBING for G38 to probe more than once.
  */
-//#define G38_PROBE_TARGET
+#define G38_PROBE_TARGET
 #if ENABLED(G38_PROBE_TARGET)
-//#define G38_PROBE_AWAY        // Include G38.4 and G38.5 to probe away from target
-#define G38_MINIMUM_MOVE 0.0275 // (mm) Minimum distance that will produce a move.
+	#define G38_PROBE_AWAY        // Include G38.4 and G38.5 to probe away from target
+	#define G38_MINIMUM_MOVE 0.033 // (mm) Minimum distance that will produce a move.
 #endif
 
 // Moves (or segments) with fewer steps than this will be joined with the next move
@@ -2427,21 +2426,21 @@
  *
  * Note that M207 / M208 / M209 settings are saved to EEPROM.
  */
-//#define FWRETRACT
+#define FWRETRACT
 #if ENABLED(FWRETRACT)
-#define FWRETRACT_AUTORETRACT // Override slicer retractions
+	#define FWRETRACT_AUTORETRACT // Override slicer retractions
 #if ENABLED(FWRETRACT_AUTORETRACT)
-#define MIN_AUTORETRACT 0.1  // (mm) Don't convert E moves under this length
-#define MAX_AUTORETRACT 10.0 // (mm) Don't convert E moves over this length
+	#define MIN_AUTORETRACT 0.15  // (mm) Don't convert E moves under this length
+	#define MAX_AUTORETRACT 15.0 // (mm) Don't convert E moves over this length
 #endif
-#define RETRACT_LENGTH 3                // (mm) Default retract length (positive value)
-#define RETRACT_LENGTH_SWAP 13          // (mm) Default swap retract length (positive value)
-#define RETRACT_FEEDRATE 45             // (mm/s) Default feedrate for retracting
-#define RETRACT_ZRAISE 0                // (mm) Default retract Z-raise
-#define RETRACT_RECOVER_LENGTH 0        // (mm) Default additional recover length (added to retract length on recover)
-#define RETRACT_RECOVER_LENGTH_SWAP 0   // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
-#define RETRACT_RECOVER_FEEDRATE 8      // (mm/s) Default feedrate for recovering from retraction
-#define RETRACT_RECOVER_FEEDRATE_SWAP 8 // (mm/s) Default feedrate for recovering from swap retraction
+	#define RETRACT_LENGTH 3                // (mm) Default retract length (positive value)
+	#define RETRACT_LENGTH_SWAP 15          // (mm) Default swap retract length (positive value)
+	#define RETRACT_FEEDRATE 45             // (mm/s) Default feedrate for retracting
+	#define RETRACT_ZRAISE 0.1              // (mm) Default retract Z-raise
+	#define RETRACT_RECOVER_LENGTH 0.05     // (mm) Default additional recover length (added to retract length on recover)
+	#define RETRACT_RECOVER_LENGTH_SWAP 0.1 // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
+	#define RETRACT_RECOVER_FEEDRATE 15     // (mm/s) Default feedrate for recovering from retraction
+	#define RETRACT_RECOVER_FEEDRATE_SWAP 5 // (mm/s) Default feedrate for recovering from swap retraction
 #if ENABLED(MIXING_EXTRUDER)
 //#define RETRACT_SYNC_MIXING           // Retract and restore all mixing steppers simultaneously
 #endif
@@ -2453,11 +2452,11 @@
  */
 #if HAS_MULTI_EXTRUDER
 // Z raise distance for tool-change, as needed for some extruders
-#define TOOLCHANGE_ZRAISE 0 // (mm)
-//#define TOOLCHANGE_ZRAISE_BEFORE_RETRACT  // Apply raise before swap retraction (if enabled)
-//#define TOOLCHANGE_NO_RETURN              // Never return to previous position on tool-change
+	#define TOOLCHANGE_ZRAISE 0.1 // (mm)
+	#define TOOLCHANGE_ZRAISE_BEFORE_RETRACT  // Apply raise before swap retraction (if enabled)
+	//#define TOOLCHANGE_NO_RETURN              // Never return to previous position on tool-change
 #if ENABLED(TOOLCHANGE_NO_RETURN)
-//#define EVENT_GCODE_AFTER_TOOLCHANGE "G12X"   // Extra G-code to run after tool-change
+	//#define EVENT_GCODE_AFTER_TOOLCHANGE "G12X"   // Extra G-code to run after tool-change
 #endif
 
 /**
@@ -2478,23 +2477,23 @@
  * Retract and prime filament on tool-change to reduce
  * ooze and stringing and to get cleaner transitions.
  */
-//#define TOOLCHANGE_FILAMENT_SWAP
+#define TOOLCHANGE_FILAMENT_SWAP
 #if ENABLED(TOOLCHANGE_FILAMENT_SWAP)
 // Load / Unload
-#define TOOLCHANGE_FS_LENGTH 12                 // (mm) Load / Unload length
-#define TOOLCHANGE_FS_EXTRA_RESUME_LENGTH 0     // (mm) Extra length for better restart, fine tune by LCD/Gcode)
-#define TOOLCHANGE_FS_RETRACT_SPEED (50 * 60)   // (mm/min) (Unloading)
-#define TOOLCHANGE_FS_UNRETRACT_SPEED (25 * 60) // (mm/min) (On SINGLENOZZLE or Bowden loading must be slowed down)
+	#define TOOLCHANGE_FS_LENGTH 20                 // (mm) Load / Unload length
+	#define TOOLCHANGE_FS_EXTRA_RESUME_LENGTH 0.2   // (mm) Extra length for better restart, fine tune by LCD/Gcode)
+	#define TOOLCHANGE_FS_RETRACT_SPEED (60 * 60)   // (mm/min) (Unloading)
+	#define TOOLCHANGE_FS_UNRETRACT_SPEED (30 * 60) // (mm/min) (On SINGLENOZZLE or Bowden loading must be slowed down)
 
-// Longer prime to clean out a SINGLENOZZLE
-#define TOOLCHANGE_FS_EXTRA_PRIME 0          // (mm) Extra priming length
-#define TOOLCHANGE_FS_PRIME_SPEED (4.6 * 60) // (mm/min) Extra priming feedrate
-#define TOOLCHANGE_FS_WIPE_RETRACT 0         // (mm) Retract before cooling for less stringing, better wipe, etc.
+	// Longer prime to clean out a SINGLENOZZLE
+	#define TOOLCHANGE_FS_EXTRA_PRIME 0.4        // (mm) Extra priming length
+	#define TOOLCHANGE_FS_PRIME_SPEED (6 * 60)   // (mm/min) Extra priming feedrate
+	#define TOOLCHANGE_FS_WIPE_RETRACT 0.2       // (mm) Retract before cooling for less stringing, better wipe, etc.
 
 // Cool after prime to reduce stringing
-#define TOOLCHANGE_FS_FAN -1        // Fan index or -1 to skip
-#define TOOLCHANGE_FS_FAN_SPEED 255 // 0-255
-#define TOOLCHANGE_FS_FAN_TIME 10   // (seconds)
+#define TOOLCHANGE_FS_FAN 0         // Fan index or -1 to skip
+#define TOOLCHANGE_FS_FAN_SPEED 235 // 0-255
+#define TOOLCHANGE_FS_FAN_TIME 20   // (seconds)
 
 // Swap uninitialized extruder with TOOLCHANGE_FS_PRIME_SPEED for all lengths (recover + prime)
 // (May break filament if not retracted beforehand.)
@@ -2547,43 +2546,44 @@
  */
 #define ADVANCED_PAUSE_FEATURE
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
-#define PAUSE_PARK_RETRACT_FEEDRATE 60        // (mm/s) Initial retract feedrate.
-#define PAUSE_PARK_RETRACT_LENGTH 2           // (mm) Initial retract.
+#define PAUSE_PARK_RETRACT_FEEDRATE 50        // (mm/s) Initial retract feedrate.
+#define PAUSE_PARK_RETRACT_LENGTH 2.5         // (mm) Initial retract.
                                               // This short retract is done immediately, before parking the nozzle.
-#define FILAMENT_CHANGE_UNLOAD_FEEDRATE 30    // (mm/s) Unload filament feedrate. This can be pretty fast.
-#define FILAMENT_CHANGE_UNLOAD_ACCEL 25       // (mm/s^2) Lower acceleration may allow a faster feedrate.
-#define FILAMENT_CHANGE_UNLOAD_LENGTH 100     // (mm) The length of filament for a complete unload.
+#define FILAMENT_CHANGE_UNLOAD_FEEDRATE 40    // (mm/s) Unload filament feedrate. This can be pretty fast.
+#define FILAMENT_CHANGE_UNLOAD_ACCEL 20       // (mm/s^2) Lower acceleration may allow a faster feedrate.
+#define FILAMENT_CHANGE_UNLOAD_LENGTH 200     // (mm) The length of filament for a complete unload.
                                               //   For Bowden, the full length of the tube and nozzle.
                                               //   For direct drive, the full length of the nozzle.
                                               //   Set to 0 for manual unloading.
-#define FILAMENT_CHANGE_SLOW_LOAD_FEEDRATE 25 // (mm/s) Slow move when starting load.
-#define FILAMENT_CHANGE_SLOW_LOAD_LENGTH 0    // (mm) Slow length, to allow time to insert material.
+#define FILAMENT_CHANGE_SLOW_LOAD_FEEDRATE 30 // (mm/s) Slow move when starting load.
+#define FILAMENT_CHANGE_SLOW_LOAD_ACCEL 20    // (mm/s^2) Lower acceleration may allow a faster feedrate.
+#define FILAMENT_CHANGE_SLOW_LOAD_LENGTH 1    // (mm) Slow length, to allow time to insert material.
                                               // 0 to disable start loading and skip to fast load only
-#define FILAMENT_CHANGE_FAST_LOAD_FEEDRATE 25 // (mm/s) Load filament feedrate. This can be pretty fast.
-#define FILAMENT_CHANGE_FAST_LOAD_ACCEL 25    // (mm/s^2) Lower acceleration may allow a faster feedrate.
-#define FILAMENT_CHANGE_FAST_LOAD_LENGTH 0    // (mm) Load length of filament, from extruder gear to nozzle.
+#define FILAMENT_CHANGE_FAST_LOAD_FEEDRATE 45 // (mm/s) Load filament feedrate. This can be pretty fast.
+#define FILAMENT_CHANGE_FAST_LOAD_ACCEL 30    // (mm/s^2) Lower acceleration may allow a faster feedrate.
+#define FILAMENT_CHANGE_FAST_LOAD_LENGTH 2    // (mm) Load length of filament, from extruder gear to nozzle.
                                               //   For Bowden, the full length of the tube and nozzle.
                                               //   For direct drive, the full length of the nozzle.
 //#define ADVANCED_PAUSE_CONTINUOUS_PURGE       // Purge continuously up to the purge length until interrupted.
-#define ADVANCED_PAUSE_PURGE_FEEDRATE 20 // (mm/s) Extrude feedrate (after loading). Should be slower than load feedrate.
-#define ADVANCED_PAUSE_PURGE_LENGTH 50   // (mm) Length to extrude after loading.
+#define ADVANCED_PAUSE_PURGE_FEEDRATE 25 // (mm/s) Extrude feedrate (after loading). Should be slower than load feedrate.
+#define ADVANCED_PAUSE_PURGE_LENGTH 75   // (mm) Length to extrude after loading.
                                          //   Set to 0 for manual extrusion.
                                          //   Filament can be extruded repeatedly from the Filament Change menu
                                          //   until extrusion is consistent, and to purge old filament.
-#define ADVANCED_PAUSE_RESUME_PRIME 0    // (mm) Extra distance to prime nozzle after returning from park.
+#define ADVANCED_PAUSE_RESUME_PRIME 1    // (mm) Extra distance to prime nozzle after returning from park.
 //#define ADVANCED_PAUSE_FANS_PAUSE             // Turn off print-cooling fans while the machine is paused.
 
 // Filament Unload does a Retract, Delay, and Purge first:
-#define FILAMENT_UNLOAD_PURGE_RETRACT 13  // (mm) Unload initial retract length.
-#define FILAMENT_UNLOAD_PURGE_DELAY 5000  // (ms) Delay for the filament to cool after retract.
-#define FILAMENT_UNLOAD_PURGE_LENGTH 8    // (mm) An unretract is done, then this length is purged.
-#define FILAMENT_UNLOAD_PURGE_FEEDRATE 25 // (mm/s) feedrate to purge before unload
+#define FILAMENT_UNLOAD_PURGE_RETRACT 20  // (mm) Unload initial retract length.
+#define FILAMENT_UNLOAD_PURGE_DELAY 4000  // (ms) Delay for the filament to cool after retract.
+#define FILAMENT_UNLOAD_PURGE_LENGTH 15   // (mm) An unretract is done, then this length is purged.
+#define FILAMENT_UNLOAD_PURGE_FEEDRATE 30 // (mm/s) feedrate to purge before unload
 
-#define PAUSE_PARK_NOZZLE_TIMEOUT 45   // (seconds) Time limit before the nozzle is turned off for safety.
-#define FILAMENT_CHANGE_ALERT_BEEPS 10 // Number of alert beeps to play when a response is needed.
+#define PAUSE_PARK_NOZZLE_TIMEOUT 30   // (seconds) Time limit before the nozzle is turned off for safety.
+#define FILAMENT_CHANGE_ALERT_BEEPS 9 // Number of alert beeps to play when a response is needed.
 #define PAUSE_PARK_NO_STEPPER_TIMEOUT  // Enable for XYZ steppers to stay powered on during filament change.
-//#define FILAMENT_CHANGE_RESUME_ON_INSERT      // Automatically continue / load filament when runout sensor is triggered again.
-//#define PAUSE_REHEAT_FAST_RESUME              // Reduce number of waits by not prompting again post-timeout before continuing.
+#define FILAMENT_CHANGE_RESUME_ON_INSERT      // Automatically continue / load filament when runout sensor is triggered again.
+#define PAUSE_REHEAT_FAST_RESUME              // Reduce number of waits by not prompting again post-timeout before continuing.
 
 #define PARK_HEAD_ON_PAUSE // Park the nozzle during pause and filament change.
 //#define HOME_BEFORE_FILAMENT_CHANGE           // If needed, home before parking for filament change
