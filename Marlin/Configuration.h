@@ -862,7 +862,7 @@
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
 #define X_MIN_ENDSTOP_INVERTING true        // Set to true to invert the logic of the endstop.
 #define Y_MIN_ENDSTOP_INVERTING true        // Set to true to invert the logic of the endstop.
-#define Z_MIN_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define Z_MIN_ENDSTOP_INVERTING true       // Set to true to invert the logic of the endstop.
 #define I_MIN_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
 #define J_MIN_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
 #define K_MIN_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
@@ -1240,18 +1240,18 @@
  *     O-- FRONT --+
  */
 //#define NOZZLE_TO_PROBE_OFFSET { 23.75, -47.25, -3.33 }
-#define NOZZLE_TO_PROBE_OFFSET { -1.5, -34.0, -1.5 }
-////#define NOZZLE_TO_PROBE_OFFSET { 24.44, -46.66, -2.55 }
+//#define NOZZLE_TO_PROBE_OFFSET { -1.5, -34.0, -1.5 }
+#define NOZZLE_TO_PROBE_OFFSET { 24, -48, -2.0 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 15.0
+#define PROBING_MARGIN 6.0
 
 // X and Y axis travel speed (mm/min) between probes
-#define XY_PROBE_FEEDRATE (90 * 60)
+#define XY_PROBE_FEEDRATE (140 * 60)
 
 // Feedrate (mm/min) for the first approach when double-probing (MULTIPLE_PROBING == 2)
-#define Z_PROBE_FEEDRATE_FAST (6 * 60)
+#define Z_PROBE_FEEDRATE_FAST (10 * 60)
 
 // Feedrate (mm/min) for the "accurate" probe of each point
 #define Z_PROBE_FEEDRATE_NORMAL (Z_PROBE_FEEDRATE_FAST / 2)
@@ -1304,7 +1304,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-#define MULTIPLE_PROBING 2
+#define MULTIPLE_PROBING 3
 #define EXTRA_PROBING 1
 
 /**
@@ -1321,16 +1321,16 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE 9    // Z Clearance for Deploy/Stow
-#define Z_CLEARANCE_BETWEEN_PROBES 6  // Z Clearance between probe points
+#define Z_CLEARANCE_DEPLOY_PROBE 7   // Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_BETWEEN_PROBES 4  // Z Clearance between probe points
 #define Z_CLEARANCE_MULTI_PROBE 3     // Z Clearance between multiple probes
 
-#define Z_AFTER_PROBING 4   // Z position after probing is done
+#define Z_AFTER_PROBING 14   // Z position after probing is done
 #define Z_PROBE_LOW_POINT 0 // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
-#define Z_PROBE_OFFSET_RANGE_MIN -3
-#define Z_PROBE_OFFSET_RANGE_MAX +6
+#define Z_PROBE_OFFSET_RANGE_MIN -4
+#define Z_PROBE_OFFSET_RANGE_MAX +4
 
 // Enable the M48 repeatability test to test probe accuracy
 #define Z_MIN_PROBE_REPEATABILITY_TEST
@@ -1356,7 +1356,7 @@
 
 #define PROBING_ESTEPPERS_OFF     // Turn all extruder steppers off when probing
 //#define PROBING_STEPPERS_OFF      // Turn all steppers off (unless needed to hold position) when probing (including extruders)
-#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors
+#define DELAY_BEFORE_PROBING 100  // (ms) To prevent vibrations from triggering piezo sensors
 //#define PROBING_FANS_OFF          // Turn fans off when probing
 #define PROBING_FANS_ON           // Turn fans on when probing
 
@@ -1427,11 +1427,11 @@
  */
 //#define Z_IDLE_HEIGHT Z_HOME_POS
 
-#define Z_DEFAULT_HEIGHT 6
+#define Z_DEFAULT_HEIGHT 4
 
-#define Z_HOMING_HEIGHT (Z_DEFAULT_HEIGHT + 2) // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
+#define Z_HOMING_HEIGHT (Z_DEFAULT_HEIGHT - 1) // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
                                                // Be sure to have this much clearance over your Z_MAX_POS to prevent grinding.
-#define Z_AFTER_HOMING (Z_DEFAULT_HEIGHT - 2) // (mm) Height to move to after homing Z
+#define Z_AFTER_HOMING (Z_DEFAULT_HEIGHT + 1)  // (mm) Height to move to after homing Z
 
 // Direction of endstops when homing; 1=MAX, -1=MIN
 // :[-1,1]
@@ -1630,7 +1630,7 @@
  */
 #define PREHEAT_BEFORE_LEVELING
 #if ENABLED(PREHEAT_BEFORE_LEVELING)
-	#define LEVELING_NOZZLE_TEMP 80 // (°C) Only applies to E0 at this time
+	#define LEVELING_NOZZLE_TEMP 60 // (°C) Only applies to E0 at this time
 	//#define LEVELING_BED_TEMP 45
 #endif
 
@@ -1643,7 +1643,7 @@
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_UBL, PROBE_MANUALLY)
 // Set a height for the start of manual adjustment
-	#define MANUAL_PROBE_START_Z 0.33 // (mm) Comment out to use the last-measured height
+	#define MANUAL_PROBE_START_Z 3.0 // (mm) Comment out to use the last-measured height
 #endif
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)
@@ -1659,7 +1659,7 @@
 // split up moves into short segments like a Delta. This follows the
 // contours of the bed more closely than edge-to-edge straight moves.
 #define SEGMENT_LEVELED_MOVES
-#define LEVELED_SEGMENT_LENGTH 7.5 // (mm) Length of all segments (except the last one)
+#define LEVELED_SEGMENT_LENGTH 5.0 // (mm) Length of all segments (except the last one)
 
 /**
  * Enable the G26 Mesh Validation Pattern tool.
@@ -1667,11 +1667,11 @@
 #define G26_MESH_VALIDATION
 #if ENABLED(G26_MESH_VALIDATION)
 	#define MESH_TEST_NOZZLE_SIZE 0.4  // (mm) Diameter of primary nozzle.
-	#define MESH_TEST_LAYER_HEIGHT 0.2 // (mm) Default layer height for G26.
+	#define MESH_TEST_LAYER_HEIGHT 0.24 // (mm) Default layer height for G26.
 	#define MESH_TEST_HOTEND_TEMP 222  // (°C) Default nozzle temperature for G26.
 	#define MESH_TEST_BED_TEMP 0       // (°C) Default bed temperature for G26.
-	#define G26_XY_FEEDRATE 25         // (mm/s) Feedrate for G26 XY moves.
-	#define G26_XY_FEEDRATE_TRAVEL 75  // (mm/s) Feedrate for G26 XY travel moves.
+	#define G26_XY_FEEDRATE 50         // (mm/s) Feedrate for G26 XY moves.
+	#define G26_XY_FEEDRATE_TRAVEL 100  // (mm/s) Feedrate for G26 XY travel moves.
 	#define G26_RETRACT_MULTIPLIER 1.0 // G26 Q (retraction) used by default between mesh test elements.
 #endif
 
@@ -1680,8 +1680,8 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
 // Set the number of grid points per dimension.
-#define GRID_MAX_POINTS_X 7
-#define GRID_MAX_POINTS_Y 7
+#define GRID_MAX_POINTS_X 8
+#define GRID_MAX_POINTS_Y 8
 
 // Probe along the Y axis, advancing X after each column
 #define PROBE_Y_FIRST
@@ -1711,16 +1711,16 @@
 //===========================================================================
 
 #define MESH_EDIT_GFX_OVERLAY // Display a graphics overlay while editing the mesh
-#define MESH_INSET 15         // Set Mesh bounds as an inset region of the bed
+#define MESH_INSET 6         // Set Mesh bounds as an inset region of the bed
 
-#define GRID_MAX_POINTS_X 10  // Don't use more than 15 points per axis, implementation limited.
+#define GRID_MAX_POINTS_X 12  // Don't use more than 15 points per axis, implementation limited.
 #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
 #define UBL_HILBERT_CURVE            // Use Hilbert distribution for less travel when probing multiple points
 #define UBL_MESH_EDIT_MOVES_Z        // Sophisticated users prefer no movement of nozzle
 #define UBL_SAVE_ACTIVE_ON_M500      // Save the currently active mesh in the current slot on M500
-#define UBL_Z_RAISE_WHEN_OFF_MESH 20 // When the nozzle is off the mesh, this value is used as the Z-Height correction value.
-#define UBL_MESH_WIZARD              // Run several commands in a row to get a complete mesh
+#define UBL_Z_RAISE_WHEN_OFF_MESH 8  // When the nozzle is off the mesh, this value is used as the Z-Height correction value.
+//#define UBL_MESH_WIZARD            // Run several commands in a row to get a complete mesh
 
 #elif ENABLED(MESH_BED_LEVELING)
 
@@ -1740,7 +1740,7 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-#define LCD_BED_LEVELING
+//#define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
 #define MESH_EDIT_Z_STEP 0.01 // (mm) Step size while manually probing Z axis.
@@ -1752,10 +1752,10 @@
 //#define LEVEL_BED_CORNERS
 
 #if ENABLED(LEVEL_BED_CORNERS)
-#define LEVEL_CORNERS_INSET_LFRB { 16, 16, 16, 16 } // (mm) Left, Front, Right, Back insets
-#define LEVEL_CORNERS_HEIGHT 3.33 // (mm) Z height of nozzle at leveling points
-#define LEVEL_CORNERS_Z_HOP 6.66  // (mm) Z height of nozzle between leveling points
-#define LEVEL_CENTER_TOO          // Move to the center after the last corner
+#define LEVEL_CORNERS_INSET_LFRB { 12, 12, 12, 12 } // (mm) Left, Front, Right, Back insets
+#define LEVEL_CORNERS_HEIGHT 3 // (mm) Z height of nozzle at leveling points
+#define LEVEL_CORNERS_Z_HOP 6  // (mm) Z height of nozzle between leveling points
+#define LEVEL_CENTER_TOO       // Move to the center after the last corner
 #define LEVEL_CORNERS_USE_PROBE
 
 /**
@@ -1775,7 +1775,7 @@
  *  |  1       2  |   | 1         4 |    | 1         2 |   | 2           |
  *  LF --------- RF   LF --------- RF    LF --------- RF   LF --------- RF
  */
-#define LEVEL_CORNERS_LEVELING_ORDER { LF, RF, RB, LB }
+#define LEVEL_CORNERS_LEVELING_ORDER {LF,RB,LB,RF}
 
 #if ENABLED(LEVEL_CORNERS_USE_PROBE)
 	#define LEVEL_CORNERS_PROBE_TOLERANCE 0.1
@@ -1789,7 +1789,7 @@
  * Commands to execute at the end of G29 probing.
  * Useful to retract or move the Z probe out of the way.
  */
-#define Z_PROBE_END_SCRIPT "G1 Z9 F3000\nG1 X15 Y-30\nG1 Z1 F2000\nG1 Z10 F2500"
+#define Z_PROBE_END_SCRIPT "G1 Z4 F2000\nG1 X10 Y-10\nG1 F1000\nG1 Z6 F1500"
 
 // @section homing
 
@@ -1821,7 +1821,7 @@
 // Homing speeds (mm/min)
 #define HOMING_FEEDRATE_MM_M       \
   {                                \
-    (30 * 60), (40 * 60), (5 * 60) \
+    (50 * 60), (60 * 60), (10 * 60) \
   }
 
 // Validate that endstops are triggered on homing moves
@@ -1915,7 +1915,7 @@
 // every couple of seconds when it can't accept commands.
 //
 #define HOST_KEEPALIVE_FEATURE       // Disable this if your host doesn't like keepalive messages
-#define DEFAULT_KEEPALIVE_INTERVAL 1 // Number of seconds between "busy" messages. Set with M113.
+#define DEFAULT_KEEPALIVE_INTERVAL 2 // Number of seconds between "busy" messages. Set with M113.
 #define BUSY_WHILE_HEATING           // Some hosts require "busy" messages even during heating
 
 //
@@ -1934,26 +1934,26 @@
 // Preheat Constants - Up to 5 are supported without changes
 //
 #define PREHEAT_1_LABEL "PLA"
-#define PREHEAT_1_TEMP_HOTEND 210
-#define PREHEAT_1_TEMP_BED 50
+#define PREHEAT_1_TEMP_HOTEND 202
+#define PREHEAT_1_TEMP_BED 0
 #define PREHEAT_1_TEMP_CHAMBER 0 // Does not have a chamber.
 #define PREHEAT_1_FAN_SPEED 255  // Value from 0 to 255
 
 #define PREHEAT_2_LABEL "ABS"
-#define PREHEAT_2_TEMP_HOTEND 230
-#define PREHEAT_2_TEMP_BED 115
+#define PREHEAT_2_TEMP_HOTEND 234
+#define PREHEAT_2_TEMP_BED 0
 #define PREHEAT_2_TEMP_CHAMBER 0 // Does not have a chamber.
 #define PREHEAT_2_FAN_SPEED 255  // Value from 0 to 255
 
 #define PREHEAT_3_LABEL "HIPS"
-#define PREHEAT_3_TEMP_HOTEND 245
-#define PREHEAT_3_TEMP_BED 115
+#define PREHEAT_3_TEMP_HOTEND 246
+#define PREHEAT_3_TEMP_BED 0
 #define PREHEAT_3_TEMP_CHAMBER 0 // Does not have a chamber.
 #define PREHEAT_3_FAN_SPEED 255  // Value from 0 to 255
 
 #define PREHEAT_4_LABEL "NYLON"
-#define PREHEAT_4_TEMP_HOTEND 260
-#define PREHEAT_4_TEMP_BED 115
+#define PREHEAT_4_TEMP_HOTEND 258
+#define PREHEAT_4_TEMP_BED 0
 #define PREHEAT_4_TEMP_CHAMBER 0 // Does not have a chamber.
 #define PREHEAT_4_FAN_SPEED 0    // Value from 0 to 255
 
@@ -1971,12 +1971,12 @@
 #define NOZZLE_PARK_FEATURE
 #if ENABLED(NOZZLE_PARK_FEATURE)
 // Specify a park position as { X, Y, Z_raise }
-  #define NOZZLE_PARK_POINT { X_MIN_POS + 16, Y_MAX_POS - 16, Z_MIN_POS + 32 }
+  #define NOZZLE_PARK_POINT { X_MIN_POS + 12, Y_MAX_POS - 12, Z_MIN_POS + 24 }
   #define NOZZLE_PARK_X_ONLY         // X move only is required to park
   #define NOZZLE_PARK_Y_ONLY         // Y move only is required to park
-  #define NOZZLE_PARK_Z_RAISE_MIN 6  // (mm) Always raise Z by at least this distance
-  #define NOZZLE_PARK_XY_FEEDRATE 60 // (mm/s) X and Y axes feedrate (also used for delta Z axis)
-  #define NOZZLE_PARK_Z_FEEDRATE 6   // (mm/s) Z axis feedrate (not used for delta printers)
+  #define NOZZLE_PARK_Z_RAISE_MIN 8  // (mm) Always raise Z by at least this distance
+  #define NOZZLE_PARK_XY_FEEDRATE 80 // (mm/s) X and Y axes feedrate (also used for delta Z axis)
+  #define NOZZLE_PARK_Z_FEEDRATE 8   // (mm/s) Z axis feedrate (not used for delta printers)
 #endif
 
 /**
@@ -2283,8 +2283,8 @@
 // Note: Test audio output with the G-Code:
 //  M300 S<frequency Hz> P<duration ms>
 //
-#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 15
-#define LCD_FEEDBACK_FREQUENCY_HZ 1500
+#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 36
+#define LCD_FEEDBACK_FREQUENCY_HZ 1800
 
 //=============================================================================
 //======================== LCD / Controller Selection =========================

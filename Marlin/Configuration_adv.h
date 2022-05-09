@@ -857,7 +857,7 @@
     2, 2, 4                 \
   } // Re-Bump Speed Divisor (Divides the Homing Feedrate)
 
-#define HOMING_BACKOFF_POST_MM { 3, 3, 3 }  // (mm) Backoff from endstops after homing
+#define HOMING_BACKOFF_POST_MM { 2, 2, 2 }  // (mm) Backoff from endstops after homing
 
 //#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
 //#define HOME_Y_BEFORE_X                     // If G28 contains XY home Y before X
@@ -884,7 +884,7 @@
 
 // Safety: The probe needs time to recognize the command.
 //         Minimum command delay (ms). Enable and increase if needed.
-#define BLTOUCH_DELAY 250
+//#define BLTOUCH_DELAY 250
 
 /**
  * Settings for BLTOUCH Classic 1.2, 1.3 or BLTouch Smart 1.0, 2.0, 2.2, 3.0, 3.1, and most clones:
@@ -2101,7 +2101,7 @@
  */
 //#define G29_RETRY_AND_RECOVER
 #if ENABLED(G29_RETRY_AND_RECOVER)
-	#define G29_MAX_RETRIES 5
+	#define G29_MAX_RETRIES 3
 	//#define G29_HALT_ON_FAILURE
 /**
  * Specify the GCODE commands that will be executed when leveling succeeds,
