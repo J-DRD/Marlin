@@ -69,7 +69,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(JD-BIQU, BIQU-B1-SE)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(JD_B1SE_200722-1930)" // Who made the changes.
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
@@ -96,7 +96,8 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-#define MOTHERBOARD BOARD_BTT_SKR_V2_0_REV_B
+#define MOTHERBOARD BOARD_BTT_SKR_V1_4
+//#define MOTHERBOARD BOARD_BTT_SKR_V2_0_REV_B
 #endif
 
 /**
@@ -107,7 +108,8 @@
  *
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
-#define SERIAL_PORT 1
+#define SERIAL_PORT 0
+//#define SERIAL_PORT 1
 
 /**
  * Serial Port Baud Rate
@@ -121,7 +123,7 @@
  * :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000]
  */
 #define BAUDRATE 115200
-#define BAUD_RATE_GCODE // Enable G-code M575 to set the baud rate
+//* skr2 // #define BAUD_RATE_GCODE // Enable G-code M575 to set the baud rate *//
 
 /**
  * Select a secondary serial port on the board to use for communication with the host.
@@ -143,7 +145,7 @@
 //#define BLUETOOTH
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "BIQU-B1-JDRD"
+#define CUSTOM_MACHINE_NAME "JDRD-200722-1930"
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -534,17 +536,17 @@
 //#define MAX31865_SENSOR_OHMS_1      100
 //#define MAX31865_CALIBRATION_OHMS_1 430
 
-#define TEMP_RESIDENCY_TIME 20 // (seconds) Time to wait for hotend to "settle" in M109
-#define TEMP_WINDOW 2          // (°C) Temperature proximity for the "temperature reached" timer
+#define TEMP_RESIDENCY_TIME 15 // (seconds) Time to wait for hotend to "settle" in M109
+#define TEMP_WINDOW 3          // (°C) Temperature proximity for the "temperature reached" timer
 #define TEMP_HYSTERESIS 3      // (°C) Temperature proximity considered "close enough" to the target
 
 #define TEMP_BED_RESIDENCY_TIME 15 // (seconds) Time to wait for bed to "settle" in M190
 #define TEMP_BED_WINDOW 3          // (°C) Temperature proximity for the "temperature reached" timer
-#define TEMP_BED_HYSTERESIS 2      // (°C) Temperature proximity considered "close enough" to the target
+#define TEMP_BED_HYSTERESIS 3      // (°C) Temperature proximity considered "close enough" to the target
 
-#define TEMP_CHAMBER_RESIDENCY_TIME 30 // (seconds) Time to wait for chamber to "settle" in M191
-#define TEMP_CHAMBER_WINDOW 3          // (°C) Temperature proximity for the "temperature reached" timer
-#define TEMP_CHAMBER_HYSTERESIS 3      // (°C) Temperature proximity considered "close enough" to the target
+#define TEMP_CHAMBER_RESIDENCY_TIME 20 // (seconds) Time to wait for chamber to "settle" in M191
+#define TEMP_CHAMBER_WINDOW 4          // (°C) Temperature proximity for the "temperature reached" timer
+#define TEMP_CHAMBER_HYSTERESIS 4      // (°C) Temperature proximity considered "close enough" to the target
 
 /**
  * Redundant Temperature Sensor (TEMP_SENSOR_REDUNDANT)
@@ -594,9 +596,9 @@
  * (especially before PID tuning). Setting the target temperature too close to MAXTEMP guarantees
  * a MAXTEMP shutdown! Use these values to forbid temperatures being set too close to MAXTEMP.
  */
-#define HOTEND_OVERSHOOT 10 // (°C) Forbid temperatures over MAXTEMP - OVERSHOOT
-#define BED_OVERSHOOT 20    // (°C) Forbid temperatures over MAXTEMP - OVERSHOOT
-#define COOLER_OVERSHOOT 15 // (°C) Forbid temperatures closer than OVERSHOOT
+#define HOTEND_OVERSHOOT 5 // (°C) Forbid temperatures over MAXTEMP - OVERSHOOT
+#define BED_OVERSHOOT 25    // (°C) Forbid temperatures over MAXTEMP - OVERSHOOT
+#define COOLER_OVERSHOOT 10 // (°C) Forbid temperatures closer than OVERSHOOT
 
 //===========================================================================
 //============================= PID Settings ================================
@@ -748,7 +750,7 @@
  * Note: For Bowden Extruders make this large enough to allow load/unload.
  */
 #define PREVENT_LENGTHY_EXTRUDE
-#define EXTRUDE_MAXLENGTH 200
+#define EXTRUDE_MAXLENGTH 300
 
 //===========================================================================
 //======================== Thermal Runaway Protection =======================
@@ -1008,9 +1010,9 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
-#define DEFAULT_ACCELERATION 400         // X, Y, Z and E acceleration for printing moves
-#define DEFAULT_TRAVEL_ACCELERATION 500  // X, Y, Z acceleration for travel (non printing) moves
-#define DEFAULT_RETRACT_ACCELERATION 600 // E acceleration for retracts
+#define DEFAULT_ACCELERATION 300         // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_TRAVEL_ACCELERATION 400  // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_RETRACT_ACCELERATION 500 // E acceleration for retracts
 
 /**
  * Default Jerk limits (mm/s)
@@ -1241,17 +1243,17 @@
  */
 //#define NOZZLE_TO_PROBE_OFFSET { 23.75, -47.25, -3.33 }
 //#define NOZZLE_TO_PROBE_OFFSET { -1.5, -34.0, -1.5 }
-#define NOZZLE_TO_PROBE_OFFSET { 24, -48, -2.0 }
+#define NOZZLE_TO_PROBE_OFFSET { -1.5, -34, -1.5 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 6.0
+#define PROBING_MARGIN 10.0
 
 // X and Y axis travel speed (mm/min) between probes
-#define XY_PROBE_FEEDRATE (140 * 60)
+#define XY_PROBE_FEEDRATE (120 * 60)
 
 // Feedrate (mm/min) for the first approach when double-probing (MULTIPLE_PROBING == 2)
-#define Z_PROBE_FEEDRATE_FAST (10 * 60)
+#define Z_PROBE_FEEDRATE_FAST (8 * 60)
 
 // Feedrate (mm/min) for the "accurate" probe of each point
 #define Z_PROBE_FEEDRATE_NORMAL (Z_PROBE_FEEDRATE_FAST / 2)
@@ -1304,7 +1306,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-#define MULTIPLE_PROBING 3
+#define MULTIPLE_PROBING 2
 #define EXTRA_PROBING 1
 
 /**
@@ -1321,16 +1323,16 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE 7   // Z Clearance for Deploy/Stow
-#define Z_CLEARANCE_BETWEEN_PROBES 4  // Z Clearance between probe points
-#define Z_CLEARANCE_MULTI_PROBE 3     // Z Clearance between multiple probes
+#define Z_CLEARANCE_DEPLOY_PROBE 10   // Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_BETWEEN_PROBES 5  // Z Clearance between probe points
+#define Z_CLEARANCE_MULTI_PROBE 5     // Z Clearance between multiple probes
 
-#define Z_AFTER_PROBING 14   // Z position after probing is done
-#define Z_PROBE_LOW_POINT 0 // Farthest distance below the trigger-point to go before stopping
+//#define Z_AFTER_PROBING 10   // Z position after probing is done
+#define Z_PROBE_LOW_POINT -1 // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
-#define Z_PROBE_OFFSET_RANGE_MIN -4
-#define Z_PROBE_OFFSET_RANGE_MAX +4
+#define Z_PROBE_OFFSET_RANGE_MIN -5
+#define Z_PROBE_OFFSET_RANGE_MAX +5
 
 // Enable the M48 repeatability test to test probe accuracy
 #define Z_MIN_PROBE_REPEATABILITY_TEST
@@ -1350,21 +1352,21 @@
  */
 #define PROBING_HEATERS_OFF       // Turn heaters off when probing
 #if ENABLED(PROBING_HEATERS_OFF)
-	//#define WAIT_FOR_BED_HEATER // Wait for bed to heat back up between probes (to improve accuracy)
+	#define WAIT_FOR_BED_HEATER // Wait for bed to heat back up between probes (to improve accuracy)
 	#define WAIT_FOR_HOTEND     // Wait for hotend to heat back up between probes (to improve accuracy & prevent cold extrude)
 #endif
 
-#define PROBING_ESTEPPERS_OFF     // Turn all extruder steppers off when probing
+//#define PROBING_ESTEPPERS_OFF     // Turn all extruder steppers off when probing
 //#define PROBING_STEPPERS_OFF      // Turn all steppers off (unless needed to hold position) when probing (including extruders)
-#define DELAY_BEFORE_PROBING 100  // (ms) To prevent vibrations from triggering piezo sensors
-//#define PROBING_FANS_OFF          // Turn fans off when probing
-#define PROBING_FANS_ON           // Turn fans on when probing
+#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors
+#define PROBING_FANS_OFF          // Turn fans off when probing
+//#define PROBING_FANS_ON           // Turn fans on when probing
 
 // Require minimum nozzle and/or bed temperature for probing
 //#define PREHEAT_BEFORE_PROBING
 #if ENABLED(PREHEAT_BEFORE_PROBING)
-	#define PROBING_NOZZLE_TEMP 80 // (°C) Only applies to E0 at this time
-//#define PROBING_BED_TEMP 45
+	#define PROBING_NOZZLE_TEMP 50 // (°C) Only applies to E0 at this time
+  #define PROBING_BED_TEMP 50
 #endif
 
 // For Inverting Stepper Enable Pins (Active Low) use 0, Non Inverting (Active High) use 1
@@ -1628,10 +1630,10 @@
 /**
  * Auto-leveling needs preheating
  */
-#define PREHEAT_BEFORE_LEVELING
+//#define PREHEAT_BEFORE_LEVELING
 #if ENABLED(PREHEAT_BEFORE_LEVELING)
-	#define LEVELING_NOZZLE_TEMP 60 // (°C) Only applies to E0 at this time
-	//#define LEVELING_BED_TEMP 45
+	#define LEVELING_NOZZLE_TEMP 50 // (°C) Only applies to E0 at this time
+	#define LEVELING_BED_TEMP 50
 #endif
 
 /**
@@ -1643,7 +1645,7 @@
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_UBL, PROBE_MANUALLY)
 // Set a height for the start of manual adjustment
-	#define MANUAL_PROBE_START_Z 3.0 // (mm) Comment out to use the last-measured height
+	#define MANUAL_PROBE_START_Z 5.0 // (mm) Comment out to use the last-measured height
 #endif
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)
@@ -1659,7 +1661,7 @@
 // split up moves into short segments like a Delta. This follows the
 // contours of the bed more closely than edge-to-edge straight moves.
 #define SEGMENT_LEVELED_MOVES
-#define LEVELED_SEGMENT_LENGTH 5.0 // (mm) Length of all segments (except the last one)
+#define LEVELED_SEGMENT_LENGTH 4.0 // (mm) Length of all segments (except the last one)
 
 /**
  * Enable the G26 Mesh Validation Pattern tool.
@@ -1667,11 +1669,11 @@
 #define G26_MESH_VALIDATION
 #if ENABLED(G26_MESH_VALIDATION)
 	#define MESH_TEST_NOZZLE_SIZE 0.4  // (mm) Diameter of primary nozzle.
-	#define MESH_TEST_LAYER_HEIGHT 0.24 // (mm) Default layer height for G26.
-	#define MESH_TEST_HOTEND_TEMP 222  // (°C) Default nozzle temperature for G26.
-	#define MESH_TEST_BED_TEMP 0       // (°C) Default bed temperature for G26.
-	#define G26_XY_FEEDRATE 50         // (mm/s) Feedrate for G26 XY moves.
-	#define G26_XY_FEEDRATE_TRAVEL 100  // (mm/s) Feedrate for G26 XY travel moves.
+	#define MESH_TEST_LAYER_HEIGHT 0.3 // (mm) Default layer height for G26.
+	#define MESH_TEST_HOTEND_TEMP 220  // (°C) Default nozzle temperature for G26.
+	#define MESH_TEST_BED_TEMP 50       // (°C) Default bed temperature for G26.
+	#define G26_XY_FEEDRATE 40         // (mm/s) Feedrate for G26 XY moves.
+	#define G26_XY_FEEDRATE_TRAVEL 80  // (mm/s) Feedrate for G26 XY travel moves.
 	#define G26_RETRACT_MULTIPLIER 1.0 // G26 Q (retraction) used by default between mesh test elements.
 #endif
 
@@ -1711,15 +1713,15 @@
 //===========================================================================
 
 #define MESH_EDIT_GFX_OVERLAY // Display a graphics overlay while editing the mesh
-#define MESH_INSET 6         // Set Mesh bounds as an inset region of the bed
+#define MESH_INSET 8         // Set Mesh bounds as an inset region of the bed
 
 #define GRID_MAX_POINTS_X 12  // Don't use more than 15 points per axis, implementation limited.
 #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
-#define UBL_HILBERT_CURVE            // Use Hilbert distribution for less travel when probing multiple points
+//#define UBL_HILBERT_CURVE            // Use Hilbert distribution for less travel when probing multiple points
 #define UBL_MESH_EDIT_MOVES_Z        // Sophisticated users prefer no movement of nozzle
 #define UBL_SAVE_ACTIVE_ON_M500      // Save the currently active mesh in the current slot on M500
-#define UBL_Z_RAISE_WHEN_OFF_MESH 8  // When the nozzle is off the mesh, this value is used as the Z-Height correction value.
+//#define UBL_Z_RAISE_WHEN_OFF_MESH 10  // When the nozzle is off the mesh, this value is used as the Z-Height correction value.
 //#define UBL_MESH_WIZARD            // Run several commands in a row to get a complete mesh
 
 #elif ENABLED(MESH_BED_LEVELING)
@@ -1728,8 +1730,8 @@
 //=================================== Mesh ==================================
 //===========================================================================
 
-#define MESH_INSET 15       // Set Mesh bounds as an inset region of the bed
-#define GRID_MAX_POINTS_X 5 // Don't use more than 7 points per axis, implementation limited.
+#define MESH_INSET 12       // Set Mesh bounds as an inset region of the bed
+#define GRID_MAX_POINTS_X 6 // Don't use more than 7 points per axis, implementation limited.
 #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
 //#define MESH_G28_REST_ORIGIN // After homing all axes ('G28' or 'G28 XYZ') rest Z at Z_MIN_POS
@@ -1789,7 +1791,7 @@
  * Commands to execute at the end of G29 probing.
  * Useful to retract or move the Z probe out of the way.
  */
-#define Z_PROBE_END_SCRIPT "G1 Z4 F2000\nG1 X10 Y-10\nG1 F1000\nG1 Z6 F1500"
+#define Z_PROBE_END_SCRIPT "G1 Z2 F1500\nG1 X4 Y-4\nG1 F1500\nG1 Z2 F1500"
 
 // @section homing
 
@@ -1821,7 +1823,7 @@
 // Homing speeds (mm/min)
 #define HOMING_FEEDRATE_MM_M       \
   {                                \
-    (50 * 60), (60 * 60), (10 * 60) \
+    (40 * 60), (40 * 60), (10 * 60) \
   }
 
 // Validate that endstops are triggered on homing moves
@@ -1857,18 +1859,17 @@
  *    +-------------->X     +-------------->X     +-------------->Y
  *     XY_SKEW_FACTOR        XZ_SKEW_FACTOR        YZ_SKEW_FACTOR
  */
-#define SKEW_CORRECTION
 
+#define SKEW_CORRECTION
 #if ENABLED(SKEW_CORRECTION)
 // Input all length measurements here:
 //#define XY_DIAG_AC 282.8427124746
 //#define XY_DIAG_BD 282.8427124746
 //#define XY_SIDE_AD 200
-
 // Or, set the default skew factors directly here
 // to override the above measurements:
-#define XY_SKEW_FACTOR 0.0
 
+#define XY_SKEW_FACTOR 0.0
 #define SKEW_CORRECTION_FOR_Z
 #if ENABLED(SKEW_CORRECTION_FOR_Z)
 //#define XZ_DIAG_AC 282.8427124746
@@ -1879,7 +1880,6 @@
 	#define XZ_SKEW_FACTOR 0.0
 	#define YZ_SKEW_FACTOR 0.0
 #endif
-
 // Enable this option for M852 to set skew at runtime
 	#define SKEW_CORRECTION_GCODE
 #endif
@@ -1900,7 +1900,7 @@
  *   M502 - Revert settings to "factory" defaults. (Follow with M500 to init the EEPROM.)
  */
 #define EEPROM_SETTINGS // Persistent storage with M500 and M501
-//#define DISABLE_M503        // Saves ~2700 bytes of PROGMEM. Disable for release!
+//#define DISABLE_M503     // Saves ~2700 bytes of PROGMEM. Disable for release!
 #define EEPROM_CHITCHAT    // Give feedback on EEPROM commands. Disable to save PROGMEM.
 #define EEPROM_BOOT_SILENT // Keep M503 quiet and only give errors during first load
 #if ENABLED(EEPROM_SETTINGS)
@@ -1915,7 +1915,7 @@
 // every couple of seconds when it can't accept commands.
 //
 #define HOST_KEEPALIVE_FEATURE       // Disable this if your host doesn't like keepalive messages
-#define DEFAULT_KEEPALIVE_INTERVAL 2 // Number of seconds between "busy" messages. Set with M113.
+#define DEFAULT_KEEPALIVE_INTERVAL 5 // Number of seconds between "busy" messages. Set with M113.
 #define BUSY_WHILE_HEATING           // Some hosts require "busy" messages even during heating
 
 //
@@ -1934,26 +1934,26 @@
 // Preheat Constants - Up to 5 are supported without changes
 //
 #define PREHEAT_1_LABEL "PLA"
-#define PREHEAT_1_TEMP_HOTEND 202
-#define PREHEAT_1_TEMP_BED 0
+#define PREHEAT_1_TEMP_HOTEND 210
+#define PREHEAT_1_TEMP_BED 40
 #define PREHEAT_1_TEMP_CHAMBER 0 // Does not have a chamber.
 #define PREHEAT_1_FAN_SPEED 255  // Value from 0 to 255
 
 #define PREHEAT_2_LABEL "ABS"
-#define PREHEAT_2_TEMP_HOTEND 234
-#define PREHEAT_2_TEMP_BED 0
+#define PREHEAT_2_TEMP_HOTEND 230
+#define PREHEAT_2_TEMP_BED 70
 #define PREHEAT_2_TEMP_CHAMBER 0 // Does not have a chamber.
 #define PREHEAT_2_FAN_SPEED 255  // Value from 0 to 255
 
 #define PREHEAT_3_LABEL "HIPS"
-#define PREHEAT_3_TEMP_HOTEND 246
-#define PREHEAT_3_TEMP_BED 0
+#define PREHEAT_3_TEMP_HOTEND 240
+#define PREHEAT_3_TEMP_BED 60
 #define PREHEAT_3_TEMP_CHAMBER 0 // Does not have a chamber.
 #define PREHEAT_3_FAN_SPEED 255  // Value from 0 to 255
 
 #define PREHEAT_4_LABEL "NYLON"
-#define PREHEAT_4_TEMP_HOTEND 258
-#define PREHEAT_4_TEMP_BED 0
+#define PREHEAT_4_TEMP_HOTEND 260
+#define PREHEAT_4_TEMP_BED 80
 #define PREHEAT_4_TEMP_CHAMBER 0 // Does not have a chamber.
 #define PREHEAT_4_FAN_SPEED 0    // Value from 0 to 255
 
@@ -2283,8 +2283,8 @@
 // Note: Test audio output with the G-Code:
 //  M300 S<frequency Hz> P<duration ms>
 //
-#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 36
-#define LCD_FEEDBACK_FREQUENCY_HZ 1800
+#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 40
+#define LCD_FEEDBACK_FREQUENCY_HZ 1600
 
 //=============================================================================
 //======================== LCD / Controller Selection =========================
