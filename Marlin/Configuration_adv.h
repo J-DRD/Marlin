@@ -48,7 +48,7 @@
  *
  * Set this value to 0 to fail on the first error to occur.
  */
-#define THERMOCOUPLE_MAX_ERRORS 20
+#define THERMOCOUPLE_MAX_ERRORS 10
 
 //
 // Custom Thermistor 1000 parameters
@@ -428,12 +428,12 @@
  */
 #define AUTOTEMP
 #if ENABLED(AUTOTEMP)
-#define AUTOTEMP_OLDWEIGHT 0.666 // Factor used to weight previous readings (0.0 < value < 1.0)
+#define AUTOTEMP_OLDWEIGHT 0.2 // Factor used to weight previous readings (0.0 < value < 1.0)
 // Turn on AUTOTEMP on M104/M109 by default using proportions set here
 #define AUTOTEMP_PROPORTIONAL
 #if ENABLED(AUTOTEMP_PROPORTIONAL)
-#define AUTOTEMP_MIN_P -1    // (°C) Added to the target temperature
-#define AUTOTEMP_MAX_P 4    // (°C) Added to the target temperature
+#define AUTOTEMP_MIN_P -2    // (°C) Added to the target temperature
+#define AUTOTEMP_MAX_P 2    // (°C) Added to the target temperature
 #define AUTOTEMP_FACTOR_P 1 // Apply this F parameter by default (overridden by M104/M109 F)
 #endif
 #endif
@@ -488,10 +488,10 @@
  */
 #define HOTEND_IDLE_TIMEOUT
 #if ENABLED(HOTEND_IDLE_TIMEOUT)
-	#define HOTEND_IDLE_TIMEOUT_SEC (5 * 60) // (seconds) Time without extruder movement to trigger protection
-	#define HOTEND_IDLE_MIN_TRIGGER 150      // (°C) Minimum temperature to enable hotend protection
-	#define HOTEND_IDLE_NOZZLE_TARGET 0      // (°C) Safe temperature for the nozzle after timeout
-	#define HOTEND_IDLE_BED_TARGET 0         // (°C) Safe temperature for the bed after timeout
+	#define HOTEND_IDLE_TIMEOUT_SEC (3 * 60) // (seconds) Time without extruder movement to trigger protection
+	#define HOTEND_IDLE_MIN_TRIGGER 175      // (°C) Minimum temperature to enable hotend protection
+	#define HOTEND_IDLE_NOZZLE_TARGET 125      // (°C) Safe temperature for the nozzle after timeout
+	#define HOTEND_IDLE_BED_TARGET 50         // (°C) Safe temperature for the bed after timeout
 #endif
 
 // @section temperature
@@ -621,9 +621,9 @@
 #define COOLER_AUTO_FAN_PIN -1
 #define COOLER_FAN_PIN -1
 
-#define EXTRUDER_AUTO_FAN_TEMPERATURE 40
+#define EXTRUDER_AUTO_FAN_TEMPERATURE 10
 #define EXTRUDER_AUTO_FAN_SPEED 255 // 255 == full speed
-#define CHAMBER_AUTO_FAN_TEMPERATURE 20
+#define CHAMBER_AUTO_FAN_TEMPERATURE 10
 #define CHAMBER_AUTO_FAN_SPEED 255
 #define COOLER_AUTO_FAN_TEMPERATURE 10
 #define COOLER_AUTO_FAN_SPEED 255
@@ -850,16 +850,16 @@
 
 #define HOMING_BUMP_MM \
   {                    \
-    3, 3, 3            \
+    2, 2, 1            \
   } // (mm) Backoff from endstops after first bump
 #define HOMING_BUMP_DIVISOR \
   {                         \
-    3, 3, 3                 \
+    3, 3, 2                 \
   } // Re-Bump Speed Divisor (Divides the Homing Feedrate)
 
-#define HOMING_BACKOFF_POST_MM { 3, 3, 3 }  // (mm) Backoff from endstops after homing
+#define HOMING_BACKOFF_POST_MM { 3, 3, 1.5 }  // (mm) Backoff from endstops after homing
 
-//#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
+#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
 //#define HOME_Y_BEFORE_X                     // If G28 contains XY home Y before X
 //#define HOME_Z_FIRST                        // Home Z first. Requires a Z-MIN endstop (not a probe).
 //#define CODEPENDENT_XY_HOMING               // If X/Y can't home without homing Y/X first
@@ -1054,18 +1054,18 @@
  * Set DISABLE_INACTIVE_? 'true' to shut down axis steppers after an idle period.
  * The Deactive Time can be overridden with M18 and M84. Set to 0 for No Timeout.
  */
-#define DEFAULT_STEPPER_DEACTIVE_TIME 100
+#define DEFAULT_STEPPER_DEACTIVE_TIME (20 * 1000)
 #define DISABLE_INACTIVE_X true
 #define DISABLE_INACTIVE_Y true
-#define DISABLE_INACTIVE_Z true // Set 'false' if the nozzle could fall onto your printed part!
+#define DISABLE_INACTIVE_Z false // Set 'false' if the nozzle could fall onto your printed part!
 #define DISABLE_INACTIVE_I true
 #define DISABLE_INACTIVE_J true
 #define DISABLE_INACTIVE_K true
 #define DISABLE_INACTIVE_E true
 
 // Default Minimum Feedrates for printing and travel moves
-#define DEFAULT_MINIMUMFEEDRATE 0.0   // (mm/s) Minimum feedrate. Set with M205 S.
-#define DEFAULT_MINTRAVELFEEDRATE 0.0 // (mm/s) Minimum travel feedrate. Set with M205 T.
+#define DEFAULT_MINIMUMFEEDRATE 0.01   // (mm/s) Minimum feedrate. Set with M205 S.
+#define DEFAULT_MINTRAVELFEEDRATE 0.01 // (mm/s) Minimum travel feedrate. Set with M205 T.
 
 // Minimum time that a segment needs to take as the buffer gets emptied
 #define DEFAULT_MINSEGMENTTIME 20000 // (µs) Set with M205 B.
@@ -1074,7 +1074,7 @@
 // Increase the slowdown divisor for larger buffer sizes.
 #define SLOWDOWN
 #if ENABLED(SLOWDOWN)
-	#define SLOWDOWN_DIVISOR 3
+	#define SLOWDOWN_DIVISOR 5
 #endif
 
 /**
@@ -1083,15 +1083,15 @@
  * See https://hydraraptor.blogspot.com/2010/12/frequency-limit.html
  * Use M201 F<freq> G<min%> to change limits at runtime.
  */
-//#define XY_FREQUENCY_LIMIT      10 // (Hz) Maximum frequency of small zigzag infill moves. Set with M201 F<hertz>.
+#define XY_FREQUENCY_LIMIT 10 // (Hz) Maximum frequency of small zigzag infill moves. Set with M201 F<hertz>.
 #ifdef XY_FREQUENCY_LIMIT
-#define XY_FREQUENCY_MIN_PERCENT 5 // (percent) Minimum FR percentage to apply. Set with M201 G<min%>.
+  #define XY_FREQUENCY_MIN_PERCENT 10 // (percent) Minimum FR percentage to apply. Set with M201 G<min%>.
 #endif
 
 // Minimum planner junction speed. Sets the default minimum speed the planner plans for at the end
 // of the buffer and all stops. This should not be much greater than zero and should only be changed
 // if unwanted behavior is observed on a user's machine when running at very slow speeds.
-#define MINIMUM_PLANNER_SPEED 0.05 // (mm/s)
+#define MINIMUM_PLANNER_SPEED 0.025 // (mm/s)
 
 //
 // Backlash Compensation
@@ -1479,7 +1479,7 @@
 #define SD_MENU_CONFIRM_START // Confirm the selected SD file before printing
 
 //#define NO_SD_AUTOSTART                 // Remove auto#.g file support completely to save some Flash, SRAM
-//#define MENU_ADDAUTOSTART               // Add a menu option to run auto#.g files
+#define MENU_ADDAUTOSTART               // Add a menu option to run auto#.g files
 
 #define BROWSE_MEDIA_ON_INSERT          // Open the file browser when media is inserted
 
@@ -1754,9 +1754,9 @@
 //#define STATUS_FLOWMETER_ANIM     // Use multiple bitmaps to indicate coolant flow
 #define STATUS_ALT_BED_BITMAP     // Use the alternative bed bitmap
 #define STATUS_ALT_FAN_BITMAP     // Use the alternative fan bitmap
-#define STATUS_FAN_FRAMES 3       // :[0,1,2,3,4] Number of fan animation frames
+#define STATUS_FAN_FRAMES 4       // :[0,1,2,3,4] Number of fan animation frames
 #define STATUS_HEAT_PERCENT       // Show heating in a progress bar
-//#define BOOT_MARLIN_LOGO_ANIMATED // Animated Marlin logo. Costs ~3260 (or ~940) bytes of PROGMEM.
+#define BOOT_MARLIN_LOGO_ANIMATED // Animated Marlin logo. Costs ~3260 (or ~940) bytes of PROGMEM.
 
 // Frivolous Game Options
 //#define MARLIN_BRICKOUT
@@ -1995,7 +1995,7 @@
 //#define BABYSTEP_MILLIMETER_UNITS     // Specify BABYSTEP_MULTIPLICATOR_(XY|Z) in mm instead of micro-steps
 #define BABYSTEP_MULTIPLICATOR_Z 1 //0.02  // (steps or mm) Steps or millimeter distance for each Z babystep
 //#define BABYSTEP_MULTIPLICATOR_XY 1 // (steps or mm) Steps or millimeter distance for each XY babystep
-#define DOUBLECLICK_FOR_Z_BABYSTEPPING // Double-click on the Status Screen for Z Babystepping.
+//#define DOUBLECLICK_FOR_Z_BABYSTEPPING // Double-click on the Status Screen for Z Babystepping.
 #if ENABLED(DOUBLECLICK_FOR_Z_BABYSTEPPING)
 #define DOUBLECLICK_MAX_INTERVAL 2000 // Maximum interval between clicks, in milliseconds. | Note: Extra time may be added to mitigate controller latency.
 //#define MOVE_Z_WHEN_IDLE            // Jump to the move Z menu on doubleclick when printer is idle.
@@ -2213,11 +2213,11 @@
 //
 #define ARC_SUPPORT // Requires ~3226 bytes
 #if ENABLED(ARC_SUPPORT)
-	#define MIN_ARC_SEGMENT_MM 0.03 // (mm) Minimum length of each arc segment
-	#define MAX_ARC_SEGMENT_MM 3.0  // (mm) Maximum length of each arc segment
-	#define MIN_CIRCLE_SEGMENTS 40  // Minimum number of segments in a complete circle
-	#define ARC_SEGMENTS_PER_SEC 50   // Use the feedrate to choose the segment length
-	#define N_ARC_CORRECTION 25 // Number of interpolated segments between corrections
+	#define MIN_ARC_SEGMENT_MM 0.20 // (mm) Minimum length of each arc segment
+	#define MAX_ARC_SEGMENT_MM 80.0  // (mm) Maximum length of each arc segment
+	#define MIN_CIRCLE_SEGMENTS 50  // Minimum number of segments in a complete circle
+	#define ARC_SEGMENTS_PER_SEC 20   // Use the feedrate to choose the segment length
+	#define N_ARC_CORRECTION 30 // Number of interpolated segments between corrections
 	#define ARC_P_CIRCLES               // Enable the 'P' parameter to specify complete circles
 	//#define SF_ARC_FIX                // Enable only if using SkeinForge with "Arc Point" fillet procedure
 #endif
@@ -2248,12 +2248,12 @@
  */
 #define G38_PROBE_TARGET
 #if ENABLED(G38_PROBE_TARGET)
-	//#define G38_PROBE_AWAY        // Include G38.4 and G38.5 to probe away from target
-	#define G38_MINIMUM_MOVE 0.02 // (mm) Minimum distance that will produce a move.
+	#define G38_PROBE_AWAY        // Include G38.4 and G38.5 to probe away from target
+	#define G38_MINIMUM_MOVE 0.025 // (mm) Minimum distance that will produce a move.
 #endif
 
 // Moves (or segments) with fewer steps than this will be joined with the next move
-#define MIN_STEPS_PER_SEGMENT 4
+#define MIN_STEPS_PER_SEGMENT 5
 
 /**
  * Minimum delay before and after setting the stepper DIR (in ns)
@@ -2314,11 +2314,11 @@
 // The number of linear moves that can be in the planner at once.
 // The value of BLOCK_BUFFER_SIZE must be a power of 2 (e.g., 8, 16, 32)
 #if BOTH(SDSUPPORT, DIRECT_STEPPING)
-#define BLOCK_BUFFER_SIZE 8
+#define BLOCK_BUFFER_SIZE 16
 #elif ENABLED(SDSUPPORT)
 #define BLOCK_BUFFER_SIZE 32
 #else
-#define BLOCK_BUFFER_SIZE 16
+#define BLOCK_BUFFER_SIZE 24
 #endif
 
 // @section serial
@@ -2334,7 +2334,7 @@
 // For debug-echo: 128 bytes for the optimal speed.
 // Other output doesn't need to be that speedy.
 // :[0, 2, 4, 8, 16, 32, 64, 128, 256]
-#define TX_BUFFER_SIZE 64
+#define TX_BUFFER_SIZE 32
 
 // Host Receive Buffer Size
 // Without XON/XOFF flow control (see SERIAL_XON_XOFF below) 32 bytes should be enough.
@@ -2439,17 +2439,17 @@
 #if ENABLED(FWRETRACT)
 	#define FWRETRACT_AUTORETRACT // Override slicer retractions
 #if ENABLED(FWRETRACT_AUTORETRACT)
-	#define MIN_AUTORETRACT 0.1  // (mm) Don't convert E moves under this length
-	#define MAX_AUTORETRACT 10.0 // (mm) Don't convert E moves over this length
+	#define MIN_AUTORETRACT 0.03  // (mm) Don't convert E moves under this length
+	#define MAX_AUTORETRACT 6.00 // (mm) Don't convert E moves over this length
 #endif
 	#define RETRACT_LENGTH 4                 // (mm) Default retract length (positive value)
 	#define RETRACT_LENGTH_SWAP 6            // (mm) Default swap retract length (positive value)
-	#define RETRACT_FEEDRATE 20              // (mm/s) Default feedrate for retracting
+	#define RETRACT_FEEDRATE 10              // (mm/s) Default feedrate for retracting
 	#define RETRACT_ZRAISE 0.5              // (mm) Default retract Z-raise
-	#define RETRACT_RECOVER_LENGTH 0.05      // (mm) Default additional recover length (added to retract length on recover)
-	#define RETRACT_RECOVER_LENGTH_SWAP 0.1 // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
-	#define RETRACT_RECOVER_FEEDRATE 20      // (mm/s) Default feedrate for recovering from retraction
-	#define RETRACT_RECOVER_FEEDRATE_SWAP 30 // (mm/s) Default feedrate for recovering from swap retraction
+	#define RETRACT_RECOVER_LENGTH 0.03      // (mm) Default additional recover length (added to retract length on recover)
+	#define RETRACT_RECOVER_LENGTH_SWAP 0.06 // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
+	#define RETRACT_RECOVER_FEEDRATE 10      // (mm/s) Default feedrate for recovering from retraction
+	#define RETRACT_RECOVER_FEEDRATE_SWAP 10 // (mm/s) Default feedrate for recovering from swap retraction
 #if ENABLED(MIXING_EXTRUDER)
 //#define RETRACT_SYNC_MIXING           // Retract and restore all mixing steppers simultaneously
 #endif
@@ -2555,41 +2555,41 @@
  */
 #define ADVANCED_PAUSE_FEATURE
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
-#define PAUSE_PARK_RETRACT_FEEDRATE 15        // (mm/s) Initial retract feedrate.
-#define PAUSE_PARK_RETRACT_LENGTH 3.0         // (mm) Initial retract.
+#define PAUSE_PARK_RETRACT_FEEDRATE 10        // (mm/s) Initial retract feedrate.
+#define PAUSE_PARK_RETRACT_LENGTH 6.0         // (mm) Initial retract.
                                               // This short retract is done immediately, before parking the nozzle.
 #define FILAMENT_CHANGE_UNLOAD_FEEDRATE 25    // (mm/s) Unload filament feedrate. This can be pretty fast.
-#define FILAMENT_CHANGE_UNLOAD_ACCEL 10       // (mm/s^2) Lower acceleration may allow a faster feedrate.
-#define FILAMENT_CHANGE_UNLOAD_LENGTH 300     // (mm) The length of filament for a complete unload.
+#define FILAMENT_CHANGE_UNLOAD_ACCEL 5       // (mm/s^2) Lower acceleration may allow a faster feedrate.
+#define FILAMENT_CHANGE_UNLOAD_LENGTH 50     // (mm) The length of filament for a complete unload.
                                               //   For Bowden, the full length of the tube and nozzle.
                                               //   For direct drive, the full length of the nozzle.
                                               //   Set to 0 for manual unloading.
-#define FILAMENT_CHANGE_SLOW_LOAD_FEEDRATE 15 // (mm/s) Slow move when starting load.
-#define FILAMENT_CHANGE_SLOW_LOAD_ACCEL 10    // (mm/s^2) Lower acceleration may allow a faster feedrate.
-#define FILAMENT_CHANGE_SLOW_LOAD_LENGTH 3    // (mm) Slow length, to allow time to insert material.
+#define FILAMENT_CHANGE_SLOW_LOAD_FEEDRATE 10 // (mm/s) Slow move when starting load.
+#define FILAMENT_CHANGE_SLOW_LOAD_ACCEL 5    // (mm/s^2) Lower acceleration may allow a faster feedrate.
+#define FILAMENT_CHANGE_SLOW_LOAD_LENGTH 10    // (mm) Slow length, to allow time to insert material.
                                               // 0 to disable start loading and skip to fast load only
 #define FILAMENT_CHANGE_FAST_LOAD_FEEDRATE 20 // (mm/s) Load filament feedrate. This can be pretty fast.
 #define FILAMENT_CHANGE_FAST_LOAD_ACCEL 10    // (mm/s^2) Lower acceleration may allow a faster feedrate.
-#define FILAMENT_CHANGE_FAST_LOAD_LENGTH 6    // (mm) Load length of filament, from extruder gear to nozzle.
+#define FILAMENT_CHANGE_FAST_LOAD_LENGTH 20    // (mm) Load length of filament, from extruder gear to nozzle.
                                               //   For Bowden, the full length of the tube and nozzle.
                                               //   For direct drive, the full length of the nozzle.
 //#define ADVANCED_PAUSE_CONTINUOUS_PURGE     // Purge continuously up to the purge length until interrupted.
-#define ADVANCED_PAUSE_PURGE_FEEDRATE 15 // (mm/s) Extrude feedrate (after loading). Should be slower than load feedrate.
-#define ADVANCED_PAUSE_PURGE_LENGTH 150  // (mm) Length to extrude after loading.
+#define ADVANCED_PAUSE_PURGE_FEEDRATE 10 // (mm/s) Extrude feedrate (after loading). Should be slower than load feedrate.
+#define ADVANCED_PAUSE_PURGE_LENGTH 40  // (mm) Length to extrude after loading.
                                          //   Set to 0 for manual extrusion.
                                          //   Filament can be extruded repeatedly from the Filament Change menu
                                          //   until extrusion is consistent, and to purge old filament.
 #define ADVANCED_PAUSE_RESUME_PRIME 0 // (mm) Extra distance to prime nozzle after returning from park.
-#define ADVANCED_PAUSE_FANS_PAUSE        // Turn off print-cooling fans while the machine is paused.
+//#define ADVANCED_PAUSE_FANS_PAUSE        // Turn off print-cooling fans while the machine is paused.
 
 // Filament Unload does a Retract, Delay, and Purge first:
-#define FILAMENT_UNLOAD_PURGE_RETRACT 8  // (mm) Unload initial retract length.
-#define FILAMENT_UNLOAD_PURGE_DELAY 8000  // (ms) Delay for the filament to cool after retract.
-#define FILAMENT_UNLOAD_PURGE_LENGTH 4    // (mm) An unretract is done, then this length is purged.
-#define FILAMENT_UNLOAD_PURGE_FEEDRATE 20 // (mm/s) feedrate to purge before unload
+#define FILAMENT_UNLOAD_PURGE_RETRACT 5  // (mm) Unload initial retract length.
+#define FILAMENT_UNLOAD_PURGE_DELAY 5000  // (ms) Delay for the filament to cool after retract.
+#define FILAMENT_UNLOAD_PURGE_LENGTH 5    // (mm) An unretract is done, then this length is purged.
+#define FILAMENT_UNLOAD_PURGE_FEEDRATE 10 // (mm/s) feedrate to purge before unload
 
-#define PAUSE_PARK_NOZZLE_TIMEOUT 90          // (seconds) Time limit before the nozzle is turned off for safety.
-#define FILAMENT_CHANGE_ALERT_BEEPS 10        // Number of alert beeps to play when a response is needed.
+#define PAUSE_PARK_NOZZLE_TIMEOUT 120          // (seconds) Time limit before the nozzle is turned off for safety.
+#define FILAMENT_CHANGE_ALERT_BEEPS 6        // Number of alert beeps to play when a response is needed.
 #define PAUSE_PARK_NO_STEPPER_TIMEOUT         // Enable for XYZ steppers to stay powered on during filament change.
 #define FILAMENT_CHANGE_RESUME_ON_INSERT      // Automatically continue / load filament when runout sensor is triggered again.
 #define PAUSE_REHEAT_FAST_RESUME              // Reduce number of waits by not prompting again post-timeout before continuing.
@@ -3091,21 +3091,21 @@
 #define X2_HYBRID_THRESHOLD 120
 #define Y_HYBRID_THRESHOLD 120
 #define Y2_HYBRID_THRESHOLD 120
-#define Z_HYBRID_THRESHOLD 12
-#define Z2_HYBRID_THRESHOLD 12
-#define Z3_HYBRID_THRESHOLD 12
-#define Z4_HYBRID_THRESHOLD 12
-#define I_HYBRID_THRESHOLD 6
-#define J_HYBRID_THRESHOLD 6
-#define K_HYBRID_THRESHOLD 6
-#define E0_HYBRID_THRESHOLD 24
-#define E1_HYBRID_THRESHOLD 24
-#define E2_HYBRID_THRESHOLD 24
-#define E3_HYBRID_THRESHOLD 24
-#define E4_HYBRID_THRESHOLD 24
-#define E5_HYBRID_THRESHOLD 24
-#define E6_HYBRID_THRESHOLD 24
-#define E7_HYBRID_THRESHOLD 24
+#define Z_HYBRID_THRESHOLD 30
+#define Z2_HYBRID_THRESHOLD 30
+#define Z3_HYBRID_THRESHOLD 30
+#define Z4_HYBRID_THRESHOLD 30
+#define I_HYBRID_THRESHOLD 20
+#define J_HYBRID_THRESHOLD 20
+#define K_HYBRID_THRESHOLD 20
+#define E0_HYBRID_THRESHOLD 40
+#define E1_HYBRID_THRESHOLD 40
+#define E2_HYBRID_THRESHOLD 40
+#define E3_HYBRID_THRESHOLD 40
+#define E4_HYBRID_THRESHOLD 40
+#define E5_HYBRID_THRESHOLD 40
+#define E6_HYBRID_THRESHOLD 40
+#define E7_HYBRID_THRESHOLD 40
 
 /**
  * Use StallGuard to home / probe X, Y, Z.
@@ -3874,7 +3874,7 @@
 #define FASTER_GCODE_PARSER
 
 #if ENABLED(FASTER_GCODE_PARSER)
-//#define GCODE_QUOTED_STRINGS  // Support for quoted string parameters
+  #define GCODE_QUOTED_STRINGS  // Support for quoted string parameters
 #endif
 
 // Support for MeatPack G-code compression (https://github.com/scottmudge/OctoPrint-MeatPack)
